@@ -1,16 +1,16 @@
 package com.chuvblocks.Interfaces;
 
-import com.chuvblocks.Clases.Cliente;
-import com.chuvblocks.Clases.ListaUsuarios;
-import com.chuvblocks.Clases.Usuario;
+import com.chuvblocks.Clases.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainInterfaz extends JFrame {
     ListaUsuarios listaUsuarios = new ListaUsuarios();
+    ListaSolicitudesProyectos listaSolicitudesProyectos = new ListaSolicitudesProyectos();
     Usuario usuarioEnLinea;
     private JPanel mainPanel;
     private JPanel InicioSesion;
@@ -28,25 +28,20 @@ public class MainInterfaz extends JFrame {
     private JPasswordField registro_txtContrasenia;
     private JPanel Clientes;
     private JPanel Empleados;
-    private JButton cerrarSesionButton;
-    private JTextField USmodificarPerfil_txtNombre;
-    private JTextField USmodificarPerfil_txtCedula;
-    private JTextField USmodificarPerfil_txtEmail;
-    private JTextField USmodificarPerfil_txtContrasenia;
-    private JButton USmodificarPerfil_btnModificar;
-    private JTextField UScrearProyecto_txtNombre;
-    private JTextField UScrearProyecto_Ubicacion;
-    private JTextField UScrearProyecto_Tiempo;
-    private JCheckBox UScrearProyecto_chkMateriales;
-    private JCheckBox UScrearProyecto_chkEspaciosVerdes;
-    private JCheckBox UScrearProyecto_chkParqueadero;
-    private JCheckBox UScrearProyecto_chkExtras;
-    private JTextArea UScrearProyecto_txtDetalles;
-    private JButton UScrearProyecto_btnEnviar;
-    private JTextArea USgestionarProyectos_txtProyectos;
+    private JButton US_cerrarSesionButton;
+    private JTextField USSolicitarProyecto_txtNombre;
+    private JTextField USSolicitarProyecto_txtUbicacionPreferencia;
+    private JSpinner USSolicitarProyecto_spTiempo;
+    private JCheckBox USSolicitarProyecto_chkMateriales;
+    private JCheckBox USSolicitarProyecto_chkEspaciosVerdes;
+    private JCheckBox USSolicitarProyecto_chkParqueadero;
+    private JCheckBox USSolicitarProyecto_chkExtras;
+    private JTextArea USSolicitarProyecto_txtDetalles;
+    private JButton USSolicitarProyecto_btnEnviar;
+    private JList<Proyecto> USgestionarProyectos_lstProyectos;
     private JButton USgestionarProyectos_btnBuscarProyecto;
     private JProgressBar USgestionarProyectos_pbEstado;
-    private JList USgestionarProyectos_jListTrabajadores;
+    private JList<Empleado> USgestionarProyectos_jListTrabajadores;
     private JTextArea USagendarCita_txtMotivo;
     private JTextField USagendarCita_txtFecha;
     private JTextField USagendarCita_txtTrabajador;
@@ -57,11 +52,20 @@ public class MainInterfaz extends JFrame {
     private JLabel USgestionarProyectos_lbTiempoInicio;
     private JLabel USgestionarProyectos_lbTiempoFinal;
     private JLabel USgestionarProyectos_lbEstado;
+    private JButton gestionarUsuariosButton;
+    private JTabbedPane tabbedPane1;
+    private JTable EMPGestionUsuarios_tbUsuarios;
+    private JButton EMP_cerrarSesionButton;
+    private DefaultTableModel clientesTM = new DefaultTableModel(new String[]{"Nombre", "Cedula", "Email"}, 0);
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().add(mainPanel);
         pack();
+        USSolicitarProyecto_spTiempo.setModel(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE,
+                1));
+        EMPGestionUsuarios_tbUsuarios.setModel(clientesTM);
+
         registrateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,23 +100,54 @@ public class MainInterfaz extends JFrame {
                             inicioSesion_Contrasenia.getText());
                     if (usuarioEnLinea instanceof Cliente) {
                         cambiarInterfaz("Clientes");
+                    } else if (usuarioEnLinea instanceof Empleado) {
+                        cambiarInterfaz("Empleados");
+                        actualizarTablaClientes();
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                } finally {
+                    pack();
                 }
             }
         });
-        cerrarSesionButton.addActionListener(new ActionListener() {
+        USSolicitarProyecto_btnEnviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SolicitudProyecto proyectoSolicitado = new SolicitudProyecto(
+                        USSolicitarProyecto_txtNombre.getText(),
+                        USSolicitarProyecto_txtUbicacionPreferencia.getText(),
+                        (int) USSolicitarProyecto_spTiempo.getValue(),
+                        USSolicitarProyecto_chkMateriales.isSelected(),
+                        USSolicitarProyecto_chkEspaciosVerdes.isSelected(),
+                        USSolicitarProyecto_chkParqueadero.isSelected(),
+                        USSolicitarProyecto_chkExtras.isSelected(),
+                        USSolicitarProyecto_txtDetalles.getText(),
+                        (Cliente) usuarioEnLinea
+                );
+                listaSolicitudesProyectos.agregarSolicitud(proyectoSolicitado);
+            }
+        });
+        ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarInterfaz("InicioSesion");
             }
-        });
+        };
+        US_cerrarSesionButton.addActionListener(listener);
+        EMP_cerrarSesionButton.addActionListener(listener);
     }
 
     private void cambiarInterfaz(String nombreInterfaz) {
         CardLayout layout = (CardLayout) mainPanel.getLayout();
         layout.show(mainPanel, nombreInterfaz);
+    }
+
+    private void actualizarTablaClientes() {
+        clientesTM.setRowCount(0);
+        listaUsuarios.obtenerClientes().forEach(cliente -> {
+            clientesTM.addRow(new Object[]{cliente.getNombre(), cliente.getCedula(), cliente.getEmail()});
+        });
     }
 
     public static void main(String[] args) {

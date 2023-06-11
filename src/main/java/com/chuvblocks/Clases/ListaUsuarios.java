@@ -12,8 +12,8 @@ public class ListaUsuarios {
         usuarios = new LinkedHashSet<>();
         usuarios.add(new Cliente("Sebastian Quito", "1727575936", "josueq12@gmail.com", "TitaniC2"));
         usuarios.add(new Empleado("Juan Sanchez", "1245789637", "juancarlos@gmail.com", "Juan123"));
-        usuarios.add(new Empleado("Pedro Arauz", "1285746985", "pedroc@gmail.com", "Pedro123"));
-        usuarios.add(new Empleado("Juan Perez", "1296574821", "juanperez@gmail.com", "Juan123"));
+        usuarios.add(new Cliente("Pedro Arauz", "1285746985", "pedroc@gmail.com", "Pedro123"));
+        usuarios.add(new Cliente("Juan Perez", "1296574821", "juanperez@gmail.com", "Juan123"));
     }
 
     public void agregarUsuario(Usuario usuario) throws Exception {
