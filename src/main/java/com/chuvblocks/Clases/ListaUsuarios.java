@@ -45,10 +45,11 @@ public class ListaUsuarios {
         return empleados;
     }
 
-    public Usuario obtenerUsuario(String cedula) {
+    public Usuario obtenerUsuario(String cedula, String contrasenia) throws Exception {
         for (Usuario usuario : usuarios) {
-            if (usuario.getCedula().compareTo(cedula) == 0) return usuario;
+            if (usuario.getCedula().compareTo(cedula) == 0 && usuario.getContrasenia().compareTo(contrasenia) == 0)
+                return usuario;
         }
-        return null;
+        throw new Exception("Usuario no encontrado");
     }
 }

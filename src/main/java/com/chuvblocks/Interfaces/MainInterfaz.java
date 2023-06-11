@@ -2,6 +2,7 @@ package com.chuvblocks.Interfaces;
 
 import com.chuvblocks.Clases.Cliente;
 import com.chuvblocks.Clases.ListaUsuarios;
+import com.chuvblocks.Clases.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +17,8 @@ public class MainInterfaz extends JFrame {
     private JButton iniciarSesionbtn;
     private JPanel Registro;
     private JButton registrarseButton;
-    private JTextField textField1;
-    private JPasswordField passwordField1;
+    private JTextField inicioSesion_textCedula;
+    private JPasswordField inicioSesion_Contrasenia;
     private JButton registrateButton;
     private JButton iniciarSesiónButton;
     private JTextField registro_txtNombre;
@@ -59,7 +60,13 @@ public class MainInterfaz extends JFrame {
         iniciarSesionbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    Usuario usuarioObtenido = listaUsuarios.obtenerUsuario(inicioSesion_textCedula.getText(),
+                            Arrays.toString(inicioSesion_Contrasenia.getPassword()));
+                    System.out.println(usuarioObtenido);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
             }
         });
     }
