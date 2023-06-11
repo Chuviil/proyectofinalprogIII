@@ -26,6 +26,10 @@ public class MainInterfaz extends JFrame {
     private JTextField registro_txtEmail;
     private JTextField registro_txtCedula;
     private JPasswordField registro_txtContrasenia;
+    private JPanel Clientes;
+    private JPanel Empleados;
+    private JTabbedPane tabbedPane1;
+    private JButton cerrarSesionButton;
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,10 +67,18 @@ public class MainInterfaz extends JFrame {
                 try {
                     Usuario usuarioObtenido = listaUsuarios.obtenerUsuario(inicioSesion_textCedula.getText(),
                             Arrays.toString(inicioSesion_Contrasenia.getPassword()));
-                    System.out.println(usuarioObtenido);
+                    if (usuarioObtenido instanceof Cliente) {
+                        cambiarInterfaz("Clientes");
+                    }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
+            }
+        });
+        cerrarSesionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarInterfaz("InicioSesion");
             }
         });
     }

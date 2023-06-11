@@ -13,7 +13,7 @@
           <card name="InicioSesion"/>
         </constraints>
         <properties>
-          <visible value="true"/>
+          <visible value="false"/>
         </properties>
         <border type="none"/>
         <children>
@@ -120,7 +120,11 @@
               <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Iniciar Sesion"/>
+              <background color="-1732578"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <font style="1"/>
+              <text value="INICIAR SESION"/>
             </properties>
           </component>
           <vspacer id="9eb2c">
@@ -152,7 +156,9 @@
               <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Registrarse"/>
+              <background color="-1732578"/>
+              <borderPainted value="false"/>
+              <text value="CREAR CUENTA"/>
             </properties>
           </component>
           <grid id="a0a6" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -356,6 +362,72 @@
             <properties/>
           </component>
         </children>
+      </grid>
+      <grid id="ed18f" binding="Clientes" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints>
+          <card name="Clientes"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="eaaff" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <card name="General"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <tabbedpane id="1277f" binding="tabbedPane1" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="200"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="7c1ba" layout-manager="CardLayout" hgap="0" vgap="0">
+                    <constraints>
+                      <tabbedpane title="Untitled"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                </children>
+              </tabbedpane>
+              <component id="40032" class="javax.swing.JButton" binding="cerrarSesionButton" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-3979979"/>
+                  <borderPainted value="false"/>
+                  <foreground color="-1"/>
+                  <text value="CERRAR SESION"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="fa56f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <card name="EdicionPerfil"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </grid>
+      <grid id="8d2f4" binding="Empleados" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints>
+          <card name="Empleados"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children/>
       </grid>
     </children>
   </grid>
