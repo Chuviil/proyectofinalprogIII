@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class MainInterfaz extends JFrame {
     ListaUsuarios listaUsuarios = new ListaUsuarios();
@@ -29,8 +28,35 @@ public class MainInterfaz extends JFrame {
     private JPasswordField registro_txtContrasenia;
     private JPanel Clientes;
     private JPanel Empleados;
-    private JTabbedPane tabbedPane1;
     private JButton cerrarSesionButton;
+    private JTextField USmodificarPerfil_txtNombre;
+    private JTextField USmodificarPerfil_txtCedula;
+    private JTextField USmodificarPerfil_txtEmail;
+    private JTextField USmodificarPerfil_txtContrasenia;
+    private JButton USmodificarPerfil_btnModificar;
+    private JTextField UScrearProyecto_txtNombre;
+    private JTextField UScrearProyecto_Ubicacion;
+    private JTextField UScrearProyecto_Tiempo;
+    private JCheckBox UScrearProyecto_chkMateriales;
+    private JCheckBox UScrearProyecto_chkEspaciosVerdes;
+    private JCheckBox UScrearProyecto_chkParqueadero;
+    private JCheckBox UScrearProyecto_chkExtras;
+    private JTextArea UScrearProyecto_txtDetalles;
+    private JButton UScrearProyecto_btnEnviar;
+    private JTextArea USgestionarProyectos_txtProyectos;
+    private JButton USgestionarProyectos_btnBuscarProyecto;
+    private JProgressBar USgestionarProyectos_pbEstado;
+    private JList USgestionarProyectos_jListTrabajadores;
+    private JTextArea USagendarCita_txtMotivo;
+    private JTextField USagendarCita_txtFecha;
+    private JTextField USagendarCita_txtTrabajador;
+    private JButton USagendarCita_btnEnviar;
+    private JTextField USgestionarProyectos_NumProyecto;
+    private JLabel USgestionarProyectos_lbNombreProyecto;
+    private JLabel USgestionarProyectos_lbUbicacion;
+    private JLabel USgestionarProyectos_lbTiempoInicio;
+    private JLabel USgestionarProyectos_lbTiempoFinal;
+    private JLabel USgestionarProyectos_lbEstado;
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
