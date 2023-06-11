@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 public class MainInterfaz extends JFrame {
     ListaUsuarios listaUsuarios = new ListaUsuarios();
+    Usuario usuarioEnLinea;
     private JPanel mainPanel;
     private JPanel InicioSesion;
     private JButton iniciarSesionbtn;
@@ -20,7 +21,7 @@ public class MainInterfaz extends JFrame {
     private JTextField inicioSesion_textCedula;
     private JPasswordField inicioSesion_Contrasenia;
     private JButton registrateButton;
-    private JButton iniciarSesiónButton;
+    private JButton irAIniciarSesionbtn;
     private JTextField registro_txtNombre;
     private JTextField registro_txtApellido;
     private JTextField registro_txtEmail;
@@ -41,7 +42,7 @@ public class MainInterfaz extends JFrame {
                 cambiarInterfaz("Registro");
             }
         });
-        iniciarSesiónButton.addActionListener(new ActionListener() {
+        irAIniciarSesionbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarInterfaz("InicioSesion");
@@ -52,7 +53,7 @@ public class MainInterfaz extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String nombreCompleto = registro_txtNombre.getText() + " " + registro_txtApellido.getText();
                 Cliente nuevoCliente = new Cliente(nombreCompleto, registro_txtCedula.getText(),
-                        registro_txtEmail.getText(), Arrays.toString(registro_txtContrasenia.getPassword()));
+                        registro_txtEmail.getText(), registro_txtContrasenia.getText());
                 try {
                     listaUsuarios.agregarUsuario(nuevoCliente);
                     cambiarInterfaz("InicioSesion");
@@ -65,9 +66,9 @@ public class MainInterfaz extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Usuario usuarioObtenido = listaUsuarios.obtenerUsuario(inicioSesion_textCedula.getText(),
-                            Arrays.toString(inicioSesion_Contrasenia.getPassword()));
-                    if (usuarioObtenido instanceof Cliente) {
+                    usuarioEnLinea = listaUsuarios.obtenerUsuario(inicioSesion_textCedula.getText(),
+                            inicioSesion_Contrasenia.getText());
+                    if (usuarioEnLinea instanceof Cliente) {
                         cambiarInterfaz("Clientes");
                     }
                 } catch (Exception ex) {
