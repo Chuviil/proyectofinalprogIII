@@ -89,6 +89,11 @@ public class MainInterfaz extends JFrame {
     private JTextField USgestionarProyectos_txtFechaFinal;
     private JTextField USgestionarProyectos_txtEstadoP;
     private JButton US_modificarPerfilButton;
+    private JTextField USEdicionperfil_txtNombre;
+    private JTextField USEdicionperfil_txtEmail;
+    private JPasswordField USEdicionperfil_txtContrasenia;
+    private JButton GUARDARButton;
+    private JButton CANCELARButton;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultTableModel clientesTM = new DefaultTableModel(new String[]{"Nombre", "Cedula", "Email"}, 0);
@@ -258,6 +263,26 @@ public class MainInterfaz extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 CardLayout layout = (CardLayout) Clientes.getLayout();
                 layout.show(Clientes, "EdicionPerfil");
+                USEdicionperfil_txtNombre.setText(usuarioEnLinea.getNombre());
+                USEdicionperfil_txtEmail.setText(usuarioEnLinea.getEmail());
+                USEdicionperfil_txtContrasenia.setText(usuarioEnLinea.getContrasenia());
+            }
+        });
+        CANCELARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) Clientes.getLayout();
+                layout.show(Clientes, "General");
+            }
+        });
+        GUARDARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                usuarioEnLinea.setNombre(USEdicionperfil_txtNombre.getText());
+                usuarioEnLinea.setEmail(USEdicionperfil_txtEmail.getText());
+                usuarioEnLinea.setContrasenia(USEdicionperfil_txtContrasenia.getText());
+                CardLayout layout = (CardLayout) Clientes.getLayout();
+                layout.show(Clientes, "General");
             }
         });
     }
