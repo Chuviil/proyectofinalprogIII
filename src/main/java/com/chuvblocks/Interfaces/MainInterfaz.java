@@ -88,6 +88,7 @@ public class MainInterfaz extends JFrame {
     private JTextField USgestionarProyectos_txtTiempoInicio;
     private JTextField USgestionarProyectos_txtFechaFinal;
     private JTextField USgestionarProyectos_txtEstadoP;
+    private JButton US_modificarPerfilButton;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultTableModel clientesTM = new DefaultTableModel(new String[]{"Nombre", "Cedula", "Email"}, 0);
@@ -250,6 +251,13 @@ public class MainInterfaz extends JFrame {
                             "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
                     USgestionarProyectos_txtEstadoP.setText(proyectoSeleccionado.getEstado());
                 }
+            }
+        });
+        US_modificarPerfilButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) Clientes.getLayout();
+                layout.show(Clientes, "EdicionPerfil");
             }
         });
     }

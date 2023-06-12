@@ -62,13 +62,6 @@ public class SolicitudProyecto {
     @Override
     public String toString() {
         return "Nombre: " + nombre +
-                "\t  Ubicacion Preferencia: " + ubicacionPreferencia +
-                "\t  TiempoEstimado: " + tiempoEstimado + " Semanas" +
-                "\t  Uso de Materiales EcoAgradables: " + (usoMaterialesEcoAgradables ? "Si" : "No") +
-                "\t  TieneEspaciosVerdes: " + (tieneEspaciosVerdes ? "Si" : "No") +
-                "\t  Tiene Parqueaderos: " + (tieneParqueaderos ? "Si" : "No") +
-                "\t  Tiene Extras: " + (tieneExtras ? "Si" : "No") +
-                "\t  Detalles: " + detalles +
                 "\t  Solicitante: " + solicitante.getNombre();
     }
 }
