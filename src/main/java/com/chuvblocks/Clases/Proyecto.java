@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Proyecto {
     static int contadorProyectos = 1;
-    private String nombre;
+    private final String nombre;
     private int codigo;
     private Cliente clientePropietario;
     private String estado;
@@ -47,10 +47,6 @@ public class Proyecto {
 
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public int getCodigo() {
@@ -139,5 +135,11 @@ public class Proyecto {
 
     public void setCostoActual(float costoActual) {
         this.costoActual = costoActual;
+    }
+
+    @Override
+    public String toString() {
+        return "Codigo: " + codigo +
+                "\tNombre: " + nombre;
     }
 }

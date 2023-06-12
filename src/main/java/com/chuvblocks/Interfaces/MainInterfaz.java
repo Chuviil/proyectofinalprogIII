@@ -3,6 +3,8 @@ package com.chuvblocks.Interfaces;
 import com.chuvblocks.Clases.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -42,19 +44,13 @@ public class MainInterfaz extends JFrame {
     private JTextArea USSolicitarProyecto_txtDetalles;
     private JButton USSolicitarProyecto_btnEnviar;
     private JList<Proyecto> USgestionarProyectos_lstProyectos;
-    private JButton USgestionarProyectos_btnBuscarProyecto;
     private JProgressBar USgestionarProyectos_pbEstado;
     private JList<Empleado> USgestionarProyectos_jListTrabajadores;
     private JTextArea USagendarCita_txtMotivo;
     private JTextField USagendarCita_txtFecha;
     private JTextField USagendarCita_txtTrabajador;
     private JButton USagendarCita_btnEnviar;
-    private JTextField USgestionarProyectos_NumProyecto;
     private JLabel USgestionarProyectos_lbNombreProyecto;
-    private JLabel USgestionarProyectos_lbUbicacion;
-    private JLabel USgestionarProyectos_lbTiempoInicio;
-    private JLabel USgestionarProyectos_lbTiempoFinal;
-    private JLabel USgestionarProyectos_lbEstado;
     private JButton gestionarUsuariosButton;
     private JTable EMPGestionUsuarios_tbUsuarios;
     private JButton EMP_cerrarSesionButton;
@@ -88,7 +84,12 @@ public class MainInterfaz extends JFrame {
     private JTextField EMPRevisionSolicitud_txtUbicacionSeleccionada;
     private JTextField EMPRevisionSolicitud_txtCostoInicial;
     private JTextField EMPRevisionSolicitud_txtCapitalInicial;
+    private JTextField USgestionarProyectos_txtUbicacion;
+    private JTextField USgestionarProyectos_txtTiempoInicio;
+    private JTextField USgestionarProyectos_txtFechaFinal;
+    private JTextField USgestionarProyectos_txtEstadoP;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
+    private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultTableModel clientesTM = new DefaultTableModel(new String[]{"Nombre", "Cedula", "Email"}, 0);
 
     public MainInterfaz() {
@@ -99,6 +100,7 @@ public class MainInterfaz extends JFrame {
                 1));
         EMPGestionUsuarios_tbUsuarios.setModel(clientesTM);
         EMPGestionarProyectos_lstSolicitudes.setModel(solicitudesDLM);
+        USgestionarProyectos_lstProyectos.setModel(proyectosClienteDLM);
 
         registrateButton.addActionListener(new ActionListener() {
             @Override
@@ -136,6 +138,7 @@ public class MainInterfaz extends JFrame {
                             inicioSesion_Contrasenia.getText());
                     if (usuarioEnLinea instanceof Cliente) {
                         cambiarInterfaz("Clientes");
+                        actualizarListaProyectosCliente();
                     } else if (usuarioEnLinea instanceof Empleado) {
                         cambiarInterfaz("Empleados");
                         actualizarTablaClientes();
@@ -235,6 +238,20 @@ public class MainInterfaz extends JFrame {
                 actualizarListaSolicitudesProyectos();
             }
         });
+        USgestionarProyectos_lstProyectos.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Proyecto proyectoSeleccionado = USgestionarProyectos_lstProyectos.getSelectedValue();
+                if (proyectoSeleccionado != null) {
+                    USgestionarProyectos_lbNombreProyecto.setText(proyectoSeleccionado.getNombre());
+                    USgestionarProyectos_txtUbicacion.setText(proyectoSeleccionado.getUbicacion());
+                    USgestionarProyectos_txtFechaFinal.setText(proyectoSeleccionado.getFechaFin().toString());
+                    USgestionarProyectos_txtTiempoInicio.setText((proyectoSeleccionado.getFechaInicio()) == null ?
+                            "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
+                    USgestionarProyectos_txtEstadoP.setText(proyectoSeleccionado.getEstado());
+                }
+            }
+        });
     }
 
     private void cambiarInterfaz(String nombreInterfaz) {
@@ -269,6 +286,11 @@ public class MainInterfaz extends JFrame {
         EMPRevisionSolicitud_txtDescripcion.setText(solicitudSeleccionada.getDetalles());
         EMPRevisionSolicitud_txtNSolicitante.setText(solicitudSeleccionada.getSolicitante().getNombre());
         EMPRevisionSolicitud_txtNSolicitanteCedula.setText(solicitudSeleccionada.getSolicitante().getCedula());
+    }
+
+    private void actualizarListaProyectosCliente() {
+        proyectosClienteDLM.clear();
+        listaProyectos.obtenerProyectosPorCliente((Cliente) usuarioEnLinea).forEach(proyectosClienteDLM::addElement);
     }
 
     private void limpiarCampos(List<JTextField> campos) {
