@@ -10,6 +10,14 @@ public class ListaSolicitudesProyectos {
         solicitudesProyectos = new LinkedList<>();
     }
 
+    public List<SolicitudProyecto> obtenertSolicitudesProyectos() {
+        return solicitudesProyectos;
+    }
+
+    public void eliminarSolicitud(SolicitudProyecto solicitudProyecto) {
+        solicitudesProyectos.remove(solicitudProyecto);
+    }
+
     public void agregarSolicitud(SolicitudProyecto solicitudProyecto) {
         solicitudesProyectos.add(solicitudProyecto);
     }

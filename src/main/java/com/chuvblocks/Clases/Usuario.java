@@ -4,12 +4,9 @@ import java.util.Objects;
 
 public class Usuario {
     private String nombre;
-    private String cedula;
+    private final String cedula;
     private String email;
     private String contrasenia;
-
-    public Usuario() {
-    }
 
     public Usuario(String nombre, String cedula, String email, String contrasenia) {
         this.nombre = nombre;
@@ -41,10 +38,6 @@ public class Usuario {
 
     public String getCedula() {
         return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
     }
 
     public String getEmail() {

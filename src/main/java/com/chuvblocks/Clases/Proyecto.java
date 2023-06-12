@@ -1,21 +1,49 @@
 package com.chuvblocks.Clases;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Objects;
 
 public class Proyecto {
+    static int contadorProyectos = 1;
     private String nombre;
     private int codigo;
     private Cliente clientePropietario;
     private String estado;
     private ArrayList<Empleado> empleadosInvolucrados;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private String ubicacion;
     private ArrayList<String> materiales;
     private float costoInicial;
     private float capitalInicial;
     private float costoActual;
+
+    public Proyecto(String nombre, Cliente clientePropietario, String estado,
+                    LocalDate fechaFin, String ubicacion, float costoInicial, float capitalInicial) {
+        this.nombre = nombre;
+        this.codigo = contadorProyectos;
+        this.clientePropietario = clientePropietario;
+        this.estado = estado;
+        this.fechaFin = fechaFin;
+        this.ubicacion = ubicacion;
+        this.costoInicial = costoInicial;
+        this.capitalInicial = capitalInicial;
+        contadorProyectos++;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Proyecto proyecto = (Proyecto) o;
+        return codigo == proyecto.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
+    }
 
     public String getNombre() {
         return nombre;
@@ -57,19 +85,19 @@ public class Proyecto {
         this.empleadosInvolucrados = empleadosInvolucrados;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 

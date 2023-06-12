@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ListaUsuarios {
-    private Set<Usuario> usuarios;
+    private final Set<Usuario> usuarios;
 
     public ListaUsuarios() {
         usuarios = new LinkedHashSet<>();
