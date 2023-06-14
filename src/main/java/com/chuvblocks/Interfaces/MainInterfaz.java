@@ -32,7 +32,7 @@ public class MainInterfaz extends JFrame {
     private JTextField registro_txtCedula;
     private JPasswordField registro_txtContrasenia;
     private JPanel Clientes;
-    private JPanel Empleados;
+    private JPanel Administrador;
     private JButton US_cerrarSesionButton;
     private JTextField USSolicitarProyecto_txtNombre;
     private JTextField USSolicitarProyecto_txtUbicacionPreferencia;
@@ -131,6 +131,7 @@ public class MainInterfaz extends JFrame {
                     cambiarInterfaz("InicioSesion");
                     limpiarCampos(List.of(registro_txtNombre, registro_txtApellido, registro_txtCedula,
                             registro_txtEmail, registro_txtContrasenia));
+                    JOptionPane.showMessageDialog(null, "Se ha registrado correctamente");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
@@ -146,7 +147,7 @@ public class MainInterfaz extends JFrame {
                         cambiarInterfaz("Clientes");
                         actualizarListaProyectosCliente();
                     } else if (usuarioEnLinea instanceof Empleado) {
-                        cambiarInterfaz("Empleados");
+                        cambiarInterfaz("Administrador");
                         actualizarTablaClientes();
                         actualizarListaSolicitudesProyectos();
                     }
