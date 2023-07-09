@@ -9,7 +9,7 @@ public class Proyecto {
     private final String nombre;
     private int codigo;
     private Cliente clientePropietario;
-    private String estado;
+    private EstadoProyecto estado;
     private ArrayList<Empleado> empleadosInvolucrados;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -19,7 +19,16 @@ public class Proyecto {
     private float capitalInicial;
     private float costoActual;
 
-    public Proyecto(String nombre, Cliente clientePropietario, String estado,
+    public enum EstadoProyecto {
+        PLANIFICACION,
+        PRESUPUESTO,
+        PROCESOS_JUDICIALES,
+        TERRENO_Y_CIMENTACION,
+        OBRA_GRIS,
+        ACABADOS
+    }
+
+    public Proyecto(String nombre, Cliente clientePropietario, EstadoProyecto estado,
                     LocalDate fechaFin, String ubicacion, float costoInicial, float capitalInicial) {
         this.nombre = nombre;
         this.codigo = contadorProyectos;
@@ -65,11 +74,11 @@ public class Proyecto {
         this.clientePropietario = clientePropietario;
     }
 
-    public String getEstado() {
+    public EstadoProyecto getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoProyecto estado) {
         this.estado = estado;
     }
 

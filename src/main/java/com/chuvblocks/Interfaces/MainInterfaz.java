@@ -143,6 +143,15 @@ public class MainInterfaz extends JFrame {
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
         EMPRevisionSolicitud_cboUbicacionSeleccionada.setModel(listaLugaresDisponiblesMapaDCM);
 
+        EMPRevisionSolicitud_spDia.setModel(
+                new SpinnerNumberModel(LocalDate.now().getDayOfMonth(), 1, 31,
+                        1));
+        EMPRevisionSolicitud_spMes.setModel(
+                new SpinnerNumberModel(LocalDate.now().getMonthValue(), 1, 12,
+                        1));
+        EMPRevisionSolicitud_spAnio.setModel(
+                new SpinnerNumberModel(LocalDate.now().getYear(), LocalDate.now().getYear(), 3000, 1));
+
         registrateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -261,7 +270,7 @@ public class MainInterfaz extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Proyecto nuevoProyecto = new Proyecto(EMPRevisionSolicitud_txtNProyecto.getText(),
-                        EMPGestionarProyectos_lstSolicitudes.getSelectedValue().getSolicitante(), "Planificacion",
+                        EMPGestionarProyectos_lstSolicitudes.getSelectedValue().getSolicitante(), Proyecto.EstadoProyecto.PLANIFICACION,
                         LocalDate.of((int) EMPRevisionSolicitud_spAnio.getValue(), (int) EMPRevisionSolicitud_spMes.getValue(),
                                 (int) EMPRevisionSolicitud_spDia.getValue()), listaLugares1MapaDCM.getSelectedItem().toString(),
                         Float.parseFloat(EMPRevisionSolicitud_txtCostoInicial.getText()),
@@ -295,7 +304,8 @@ public class MainInterfaz extends JFrame {
                     USgestionarProyectos_txtFechaFinal.setText(proyectoSeleccionado.getFechaFin().toString());
                     USgestionarProyectos_txtTiempoInicio.setText((proyectoSeleccionado.getFechaInicio()) == null ?
                             "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
-                    USgestionarProyectos_txtEstadoP.setText(proyectoSeleccionado.getEstado());
+                    USgestionarProyectos_txtEstadoP.setText(proyectoSeleccionado.getEstado().toString());
+                    USgestionarProyectos_pbEstado.setValue((int) (((proyectoSeleccionado.getEstado().ordinal() + 1) / 6.0d)*100));
                 }
             }
         });
