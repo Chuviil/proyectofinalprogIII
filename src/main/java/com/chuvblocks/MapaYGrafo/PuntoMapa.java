@@ -5,15 +5,18 @@ import java.util.Objects;
 public class PuntoMapa {
     private Vector2 localizacion;
     private String nombre;
+    private boolean ocupado;
 
     public PuntoMapa(String nombre, Vector2 localizacion) {
         this.localizacion = localizacion;
         this.nombre = nombre;
+        this.ocupado = false;
     }
 
     public PuntoMapa(String nombre, int x, int y) {
         this.localizacion = new Vector2(x, y);
         this.nombre = nombre;
+        this.ocupado = false;
     }
 
     @Override
@@ -43,6 +46,14 @@ public class PuntoMapa {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public boolean estaOcupado() {
+        return ocupado;
+    }
+
+    public void ocuparLugar() {
+        this.ocupado = true;
     }
 
     @Override

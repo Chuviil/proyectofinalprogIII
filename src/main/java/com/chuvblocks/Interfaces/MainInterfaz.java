@@ -88,7 +88,7 @@ public class MainInterfaz extends JFrame {
     private JSpinner EMPRevisionSolicitud_spDia;
     private JSpinner EMPRevisionSolicitud_spMes;
     private JSpinner EMPRevisionSolicitud_spAnio;
-    private JTextField EMPRevisionSolicitud_txtUbicacionSeleccionada;
+    private JComboBox<PuntoMapa> EMPRevisionSolicitud_cboUbicacionSeleccionada;
     private JTextField EMPRevisionSolicitud_txtCostoInicial;
     private JTextField EMPRevisionSolicitud_txtCapitalInicial;
     private JTextField USgestionarProyectos_txtUbicacion;
@@ -127,6 +127,7 @@ public class MainInterfaz extends JFrame {
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares1MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares2MapaDCM = new DefaultComboBoxModel<>();
+    private final DefaultComboBoxModel<PuntoMapa> listaLugaresDisponiblesMapaDCM = new DefaultComboBoxModel<>();
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -140,6 +141,7 @@ public class MainInterfaz extends JFrame {
         ADM_mpPrincipal.add(AMD_MapaDisplay);
         ADM_MapaLugar1cbo.setModel(listaLugares1MapaDCM);
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
+        EMPRevisionSolicitud_cboUbicacionSeleccionada.setModel(listaLugaresDisponiblesMapaDCM);
 
         registrateButton.addActionListener(new ActionListener() {
             @Override
@@ -261,9 +263,12 @@ public class MainInterfaz extends JFrame {
                 Proyecto nuevoProyecto = new Proyecto(EMPRevisionSolicitud_txtNProyecto.getText(),
                         EMPGestionarProyectos_lstSolicitudes.getSelectedValue().getSolicitante(), "Planificacion",
                         LocalDate.of((int) EMPRevisionSolicitud_spAnio.getValue(), (int) EMPRevisionSolicitud_spMes.getValue(),
-                                (int) EMPRevisionSolicitud_spDia.getValue()), EMPRevisionSolicitud_txtUbicacionSeleccionada.getText(),
+                                (int) EMPRevisionSolicitud_spDia.getValue()), listaLugares1MapaDCM.getSelectedItem().toString(),
                         Float.parseFloat(EMPRevisionSolicitud_txtCostoInicial.getText()),
                         Float.parseFloat(EMPRevisionSolicitud_txtCapitalInicial.getText()));
+                ((PuntoMapa) listaLugares1MapaDCM.getSelectedItem()).ocuparLugar();
+                AMD_MapaDisplay.graficar();
+                actualizarListaLugaresCBOs();
                 listaProyectos.agregarProyecto(nuevoProyecto);
                 CardLayout layout = (CardLayout) EMPGestionarProyectos_lySolicitudes.getLayout();
                 layout.show(EMPGestionarProyectos_lySolicitudes, "ListadoSolicitudes");
@@ -387,8 +392,15 @@ public class MainInterfaz extends JFrame {
         agregarAlMapaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int x = Integer.parseInt(ADM_txtMapaX.getText());
-                int y = Integer.parseInt(ADM_txtMapaY.getText());
+                int x = 0;
+                int y = 0;
+                try {
+                    x = Integer.parseInt(ADM_txtMapaX.getText());
+                    y = Integer.parseInt(ADM_txtMapaY.getText());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un punto en el mapa");
+                    return;
+                }
                 PuntoMapa nuevoPunto = new PuntoMapa(ADM_txtMapaNombre.getText(), x, y);
                 AMD_Mapa.addPuntoMapa(nuevoPunto);
                 AMD_MapaDisplay.graficar();
@@ -461,8 +473,11 @@ public class MainInterfaz extends JFrame {
     public void actualizarListaLugaresCBOs() {
         listaLugares1MapaDCM.removeAllElements();
         listaLugares2MapaDCM.removeAllElements();
+        listaLugaresDisponiblesMapaDCM.removeAllElements();
         AMD_Mapa.obtenerPuntosMapa().forEach(listaLugares1MapaDCM::addElement);
         AMD_Mapa.obtenerPuntosMapa().forEach(listaLugares2MapaDCM::addElement);
+        AMD_Mapa.obtenerPuntosMapa().stream().filter(p -> !p.estaOcupado())
+                .forEach(listaLugaresDisponiblesMapaDCM::addElement);
     }
 
     public static void main(String[] args) {

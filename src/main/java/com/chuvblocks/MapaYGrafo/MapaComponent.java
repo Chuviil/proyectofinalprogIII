@@ -28,7 +28,7 @@ public class MapaComponent extends PCanvas {
             PPath marcadorMapa = PPath.createEllipse(
                     punto.getLocalizacion().getX() - 10,
                     punto.getLocalizacion().getY() - 10, 20, 20);
-            marcadorMapa.setPaint(Color.RED);
+            marcadorMapa.setPaint(punto.estaOcupado() ? Color.RED : Color.GREEN);
             PText texto = new PText(punto.getNombre());
             texto.setBounds(punto.getLocalizacion().getX(), punto.getLocalizacion().getY() + 5, 10, 10);
             getLayer().addChild(marcadorMapa);
