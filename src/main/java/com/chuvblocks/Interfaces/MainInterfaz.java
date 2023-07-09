@@ -5,10 +5,11 @@ import com.chuvblocks.Clases.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -52,7 +53,6 @@ public class MainInterfaz extends JFrame {
     private JButton USagendarCita_btnEnviar;
     private JLabel USgestionarProyectos_lbNombreProyecto;
     private JButton gestionarUsuariosButton;
-    private JTable EMPGestionUsuarios_tbUsuarios;
     private JButton EMP_cerrarSesionButton;
     private JTextField EMPCrearClientes_txtEmail;
     private JTextField EMPCrearClientes_txtCedula;
@@ -91,12 +91,22 @@ public class MainInterfaz extends JFrame {
     private JButton US_modificarPerfilButton;
     private JTextField USEdicionperfil_txtNombre;
     private JTextField USEdicionperfil_txtEmail;
-    private JPasswordField USEdicionperfil_txtContrasenia;
+    private JTextField USEdicionperfil_txtContrasenia;
     private JButton GUARDARButton;
     private JButton CANCELARButton;
+    private JList<Cliente> EMPListadoClientes_lst;
+    private JButton regresarRevisionButton;
+    private JButton modificarButton;
+    private JPanel ADM_GestionUsuariosMod;
+    private JTextField ADM_modNombre;
+    private JTextField ADM_modCedula;
+    private JTextField ADM_modEmail;
+    private JTextField ADM_modContrasenia;
+    private JButton ADM_btnGuardar;
+    private JButton ADM_btnCancelar;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
-    private final DefaultTableModel clientesTM = new DefaultTableModel(new String[]{"Nombre", "Cedula", "Email"}, 0);
+    private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,9 +114,9 @@ public class MainInterfaz extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         USSolicitarProyecto_spTiempo.setModel(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE,
                 1));
-        EMPGestionUsuarios_tbUsuarios.setModel(clientesTM);
         EMPGestionarProyectos_lstSolicitudes.setModel(solicitudesDLM);
         USgestionarProyectos_lstProyectos.setModel(proyectosClienteDLM);
+        EMPListadoClientes_lst.setModel(listaClientesDLM);
 
         registrateButton.addActionListener(new ActionListener() {
             @Override
@@ -148,7 +158,7 @@ public class MainInterfaz extends JFrame {
                         actualizarListaProyectosCliente();
                     } else if (usuarioEnLinea instanceof Empleado) {
                         cambiarInterfaz("Administrador");
-                        actualizarTablaClientes();
+                        actualizarJListClientes();
                         actualizarListaSolicitudesProyectos();
                     }
                     limpiarCampos(List.of(inicioSesion_textCedula, inicioSesion_Contrasenia));
@@ -190,7 +200,7 @@ public class MainInterfaz extends JFrame {
                         EMPCrearClientes_txtEmail.getText(), EMPCrearClientes_txtContrasenia.getText());
                 try {
                     listaUsuarios.agregarUsuario(nuevoCliente);
-                    actualizarTablaClientes();
+                    actualizarJListClientes();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
@@ -286,6 +296,54 @@ public class MainInterfaz extends JFrame {
                 layout.show(Clientes, "General");
             }
         });
+        regresarRevisionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) EMPGestionarProyectos_lySolicitudes.getLayout();
+                layout.show(EMPGestionarProyectos_lySolicitudes, "ListadoSolicitudes");
+            }
+        });
+        modificarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (EMPListadoClientes_lst.getSelectedValue() == null) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un cliente primero!");
+                    return;
+                }
+                Cliente clienteSeleccionado = EMPListadoClientes_lst.getSelectedValue();
+                ADM_modNombre.setText(clienteSeleccionado.getNombre());
+                ADM_modCedula.setText(clienteSeleccionado.getCedula());
+                ADM_modEmail.setText(clienteSeleccionado.getEmail());
+                ADM_modContrasenia.setText(clienteSeleccionado.getContrasenia());
+                CardLayout layout = (CardLayout) ADM_GestionUsuariosMod.getLayout();
+                layout.show(ADM_GestionUsuariosMod, "modificacionPerfil");
+            }
+        });
+        ADM_btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) ADM_GestionUsuariosMod.getLayout();
+                layout.show(ADM_GestionUsuariosMod, "listadoClientes");
+            }
+        });
+        ADM_btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cliente clienteSeleccionado = EMPListadoClientes_lst.getSelectedValue();
+                clienteSeleccionado.setNombre(ADM_modNombre.getText());
+                clienteSeleccionado.setEmail(ADM_modEmail.getText());
+                clienteSeleccionado.setContrasenia(ADM_modContrasenia.getText());
+                CardLayout layout = (CardLayout) ADM_GestionUsuariosMod.getLayout();
+                layout.show(ADM_GestionUsuariosMod, "listadoClientes");
+            }
+        });
+        ADM_modCedula.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JOptionPane.showMessageDialog(null, "La cedula es inmutable y no puede ser modificada");
+            }
+        });
     }
 
     private void cambiarInterfaz(String nombreInterfaz) {
@@ -298,11 +356,9 @@ public class MainInterfaz extends JFrame {
         layout.show(mainEmpleadoPanel, nombreInterfaz);
     }
 
-    private void actualizarTablaClientes() {
-        clientesTM.setRowCount(0);
-        listaUsuarios.obtenerClientes().forEach(cliente -> {
-            clientesTM.addRow(new Object[]{cliente.getNombre(), cliente.getCedula(), cliente.getEmail()});
-        });
+    private void actualizarJListClientes() {
+        listaClientesDLM.clear();
+        listaUsuarios.obtenerClientes().forEach(listaClientesDLM::addElement);
     }
 
     private void actualizarListaSolicitudesProyectos() {

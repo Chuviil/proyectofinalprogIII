@@ -55,4 +55,11 @@ public class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre +
+                "\t   Cedula: " + cedula +
+                "\t   Email: " + email;
+    }
 }
