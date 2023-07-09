@@ -47,6 +47,7 @@ public class ListaUsuarios {
     public List<Empleado> obtenerEmpleados() {
         List<Empleado> empleados = new ArrayList<>();
         for (Usuario usuario : usuarios) {
+            if (usuario instanceof Administrador) continue;
             if (usuario instanceof Empleado) {
                 empleados.add((Empleado) usuario);
             }

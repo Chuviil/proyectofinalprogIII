@@ -63,11 +63,10 @@ public class MainInterfaz extends JFrame {
     private JButton EMP_cerrarSesionButton;
     private JTextField EMPCrearClientes_txtEmail;
     private JTextField EMPCrearClientes_txtCedula;
-    private JPasswordField EMPCrearClientes_txtContrasenia;
+    private JTextField EMPCrearClientes_txtContrasenia;
     private JTextField EMPCrearClientes_txtNombre;
     private JTextField EMPCrearClientes_txtApellido;
     private JButton EMPCrearClientes_btnCrear;
-    private JTabbedPane tabbedPane2;
     private JTabbedPane tabbedPane1;
     private JButton gestionarProyectosButton;
     private JList<SolicitudProyecto> EMPGestionarProyectos_lstSolicitudes;
@@ -122,9 +121,19 @@ public class MainInterfaz extends JFrame {
     private JComboBox<PuntoMapa> ADM_MapaLugar1cbo;
     private JComboBox<PuntoMapa> ADM_MapaLugar2cbo;
     private JButton AMD_ConectarLugaresbtn;
+    private JTabbedPane tabbedPane4;
+    private JButton EMPListadoEmpleados_btnModificar;
+    private JTextField EMPCrearEmpleados_txtEmail;
+    private JTextField EMPCrearEmpleados_txtCedula;
+    private JTextField EMPCrearEmpleados_txtContrasenia;
+    private JButton EMPCrearEmpleados_btnCrear;
+    private JTextField EMPCrearEmpleados_txtNombre;
+    private JTextField EMPCrearEmpleados_txtApellido;
+    private JList<Empleado> EMPListadoEmpleados_lst;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
+    private final DefaultListModel<Empleado> listaEmpleadosDLM = new DefaultListModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares1MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares2MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugaresDisponiblesMapaDCM = new DefaultComboBoxModel<>();
@@ -138,6 +147,7 @@ public class MainInterfaz extends JFrame {
         EMPGestionarProyectos_lstSolicitudes.setModel(solicitudesDLM);
         USgestionarProyectos_lstProyectos.setModel(proyectosClienteDLM);
         EMPListadoClientes_lst.setModel(listaClientesDLM);
+        EMPListadoEmpleados_lst.setModel(listaEmpleadosDLM);
         ADM_mpPrincipal.add(AMD_MapaDisplay);
         ADM_MapaLugar1cbo.setModel(listaLugares1MapaDCM);
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
@@ -193,6 +203,7 @@ public class MainInterfaz extends JFrame {
                     } else if (usuarioEnLinea instanceof Administrador) {
                         cambiarInterfaz("Administrador");
                         actualizarJListClientes();
+                        actualizarJListEmpleados();
                         actualizarListaSolicitudesProyectos();
                     } else if (usuarioEnLinea instanceof Empleado) {
                         cambiarInterfaz("Empleado");
@@ -305,7 +316,7 @@ public class MainInterfaz extends JFrame {
                     USgestionarProyectos_txtTiempoInicio.setText((proyectoSeleccionado.getFechaInicio()) == null ?
                             "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
                     USgestionarProyectos_txtEstadoP.setText(proyectoSeleccionado.getEstado().toString());
-                    USgestionarProyectos_pbEstado.setValue((int) (((proyectoSeleccionado.getEstado().ordinal() + 1) / 6.0d)*100));
+                    USgestionarProyectos_pbEstado.setValue((int) (((proyectoSeleccionado.getEstado().ordinal() + 1) / 6.0d) * 100));
                 }
             }
         });
@@ -435,6 +446,20 @@ public class MainInterfaz extends JFrame {
                 AMD_MapaDisplay.graficar();
             }
         });
+        EMPCrearEmpleados_btnCrear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombreCompleto = EMPCrearEmpleados_txtNombre.getText() + " " + EMPCrearEmpleados_txtApellido.getText();
+                Empleado nuevoEmpleado = new Empleado(nombreCompleto, EMPCrearEmpleados_txtCedula.getText(),
+                        EMPCrearEmpleados_txtEmail.getText(), EMPCrearEmpleados_txtContrasenia.getText());
+                try {
+                    listaUsuarios.agregarUsuario(nuevoEmpleado);
+                    actualizarJListEmpleados();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
+        });
     }
 
     private void cambiarInterfaz(String nombreInterfaz) {
@@ -450,6 +475,11 @@ public class MainInterfaz extends JFrame {
     private void actualizarJListClientes() {
         listaClientesDLM.clear();
         listaUsuarios.obtenerClientes().forEach(listaClientesDLM::addElement);
+    }
+
+    private void actualizarJListEmpleados() {
+        listaEmpleadosDLM.clear();
+        listaUsuarios.obtenerEmpleados().forEach(listaEmpleadosDLM::addElement);
     }
 
     private void actualizarListaSolicitudesProyectos() {
