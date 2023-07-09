@@ -1335,52 +1335,191 @@
                           </component>
                         </children>
                       </grid>
-                      <grid id="f703e" layout-manager="BorderLayout" hgap="0" vgap="0">
+                      <grid id="75374" binding="ADMGestionarUsuarios_lyEmpleadosLsMod" layout-manager="CardLayout" hgap="0" vgap="0">
                         <constraints>
                           <tabbedpane title="Listado Empleados"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="d8994" class="javax.swing.JList" binding="EMPListadoEmpleados_lst">
-                            <constraints border-constraint="Center"/>
-                            <properties/>
-                          </component>
-                          <grid id="be85d" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="10" left="10" bottom="10" right="10"/>
-                            <constraints border-constraint="North"/>
+                          <grid id="90886" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints>
+                              <card name="listadoEmpleados"/>
+                            </constraints>
                             <properties/>
                             <border type="none"/>
                             <children>
-                              <component id="d2d66" class="javax.swing.JLabel">
+                              <component id="d8994" class="javax.swing.JList" binding="EMPListadoEmpleados_lst">
+                                <constraints border-constraint="Center"/>
+                                <properties/>
+                              </component>
+                              <grid id="e6dd5" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="10" left="10" bottom="10" right="10"/>
+                                <constraints border-constraint="North"/>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <component id="e9d8a" class="javax.swing.JButton" binding="EMPListadoEmpleados_btnModificar">
+                                    <constraints>
+                                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-10566845"/>
+                                      <borderPainted value="false"/>
+                                      <text value="Modificar"/>
+                                    </properties>
+                                  </component>
+                                  <vspacer id="23e56">
+                                    <constraints>
+                                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </vspacer>
+                                  <hspacer id="a3868">
+                                    <constraints>
+                                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                  <component id="e602" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <font size="18" style="1"/>
+                                      <text value="Empleados"/>
+                                    </properties>
+                                  </component>
+                                  <hspacer id="6d4f5">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                  </hspacer>
+                                </children>
+                              </grid>
+                            </children>
+                          </grid>
+                          <grid id="6dbb9" layout-manager="GridLayoutManager" row-count="8" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="10" left="10" bottom="10" right="10"/>
+                            <constraints>
+                              <card name="modificacionEmpleado"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="93f6d" class="javax.swing.JLabel">
                                 <constraints>
-                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties>
                                   <font size="18" style="1"/>
-                                  <text value="Empleados"/>
+                                  <text value="MODIFICACIÓN EMPLEADO"/>
                                 </properties>
                               </component>
-                              <component id="e9d8a" class="javax.swing.JButton" binding="EMPListadoEmpleados_btnModificar">
+                              <component id="b1902" class="javax.swing.JLabel">
                                 <constraints>
-                                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties>
-                                  <background color="-10566845"/>
-                                  <borderPainted value="false"/>
-                                  <text value="Modificar"/>
+                                  <text value="Nombre:"/>
                                 </properties>
                               </component>
-                              <hspacer id="24a4">
+                              <component id="67e4d" class="javax.swing.JLabel">
                                 <constraints>
-                                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>
-                              </hspacer>
-                              <hspacer id="70d65">
+                                <properties>
+                                  <text value="Cedula:"/>
+                                </properties>
+                              </component>
+                              <component id="17bcc" class="javax.swing.JLabel">
                                 <constraints>
-                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>
-                              </hspacer>
+                                <properties>
+                                  <text value="Email:"/>
+                                </properties>
+                              </component>
+                              <component id="1be9a" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Contraseña:"/>
+                                </properties>
+                              </component>
+                              <component id="72205" class="javax.swing.JTextField" binding="ADM_modEmpleadoNombre">
+                                <constraints>
+                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="f4016" class="javax.swing.JTextField" binding="ADM_modEmpleadoCedula">
+                                <constraints>
+                                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties>
+                                  <editable value="false"/>
+                                </properties>
+                              </component>
+                              <component id="f46b8" class="javax.swing.JTextField" binding="ADM_modEmpleadoEmail">
+                                <constraints>
+                                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="11a3" class="javax.swing.JTextField" binding="ADM_modEmpleadoContrasenia">
+                                <constraints>
+                                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <grid id="ba042" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children>
+                                  <component id="95c6" class="javax.swing.JButton" binding="ADM_modEmpleadobtnGuardar">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-10566845"/>
+                                      <borderPainted value="false"/>
+                                      <text value="GUARDAR"/>
+                                    </properties>
+                                  </component>
+                                  <component id="29d09" class="javax.swing.JButton" binding="ADM_modEmpleadobtnCancelar">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-3979979"/>
+                                      <borderPainted value="false"/>
+                                      <text value="CANCELAR"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </grid>
+                              <vspacer id="1334d">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </vspacer>
+                              <vspacer id="494f2">
+                                <constraints>
+                                  <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </vspacer>
                             </children>
                           </grid>
                         </children>

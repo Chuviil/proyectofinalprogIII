@@ -130,6 +130,13 @@ public class MainInterfaz extends JFrame {
     private JTextField EMPCrearEmpleados_txtNombre;
     private JTextField EMPCrearEmpleados_txtApellido;
     private JList<Empleado> EMPListadoEmpleados_lst;
+    private JTextField ADM_modEmpleadoNombre;
+    private JTextField ADM_modEmpleadoCedula;
+    private JTextField ADM_modEmpleadoEmail;
+    private JTextField ADM_modEmpleadoContrasenia;
+    private JButton ADM_modEmpleadobtnGuardar;
+    private JButton ADM_modEmpleadobtnCancelar;
+    private JPanel ADMGestionarUsuarios_lyEmpleadosLsMod;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
@@ -458,6 +465,40 @@ public class MainInterfaz extends JFrame {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
+            }
+        });
+        EMPListadoEmpleados_btnModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (EMPListadoEmpleados_lst.getSelectedValue() == null) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un empleado primero!");
+                    return;
+                }
+                Empleado clienteSeleccionado = EMPListadoEmpleados_lst.getSelectedValue();
+                ADM_modEmpleadoNombre.setText(clienteSeleccionado.getNombre());
+                ADM_modEmpleadoCedula.setText(clienteSeleccionado.getCedula());
+                ADM_modEmpleadoEmail.setText(clienteSeleccionado.getEmail());
+                ADM_modEmpleadoContrasenia.setText(clienteSeleccionado.getContrasenia());
+                CardLayout layout = (CardLayout) ADMGestionarUsuarios_lyEmpleadosLsMod.getLayout();
+                layout.show(ADMGestionarUsuarios_lyEmpleadosLsMod, "modificacionEmpleado");
+            }
+        });
+        ADM_modEmpleadobtnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) ADMGestionarUsuarios_lyEmpleadosLsMod.getLayout();
+                layout.show(ADMGestionarUsuarios_lyEmpleadosLsMod, "listadoEmpleados");
+            }
+        });
+        ADM_modEmpleadobtnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Empleado empleadoSeleccionado = EMPListadoEmpleados_lst.getSelectedValue();
+                empleadoSeleccionado.setNombre(ADM_modEmpleadoNombre.getText());
+                empleadoSeleccionado.setEmail(ADM_modEmpleadoEmail.getText());
+                empleadoSeleccionado.setContrasenia(ADM_modEmpleadoContrasenia.getText());
+                CardLayout layout = (CardLayout) ADMGestionarUsuarios_lyEmpleadosLsMod.getLayout();
+                layout.show(ADMGestionarUsuarios_lyEmpleadosLsMod, "listadoEmpleados");
             }
         });
     }
