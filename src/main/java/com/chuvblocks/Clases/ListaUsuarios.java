@@ -11,7 +11,8 @@ public class ListaUsuarios {
     public ListaUsuarios() {
         usuarios = new LinkedHashSet<>();
         usuarios.add(new Cliente("Sebastian Quito", "1727575936", "josueq12@gmail.com", "TitaniC2"));
-        usuarios.add(new Empleado("Administrador SN", "1234567890", "admin@chuvblocks.com", "admin"));
+        usuarios.add(new Administrador("Administrador SN", "1234567890", "admin@chuvblocks.com", "admin"));
+        usuarios.add(new Empleado("Empleado SN", "1234567891", "empleador@chuvblocks.com", "empleado"));
         usuarios.add(new Cliente("Liseth Abad", "1725370132", "lisetha@gmail.com", "empanada123"));
         usuarios.add(new Cliente("Juan Perez", "1296574821", "juanperez@gmail.com", "Juan123"));
     }

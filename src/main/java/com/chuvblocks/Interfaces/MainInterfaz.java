@@ -1,6 +1,11 @@
 package com.chuvblocks.Interfaces;
 
 import com.chuvblocks.Clases.*;
+import com.chuvblocks.MapaYGrafo.Mapa;
+import com.chuvblocks.MapaYGrafo.MapaComponent;
+import com.chuvblocks.MapaYGrafo.PuntoMapa;
+import org.piccolo2d.event.PBasicInputEventHandler;
+import org.piccolo2d.event.PInputEvent;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,6 +23,8 @@ public class MainInterfaz extends JFrame {
     ListaSolicitudesProyectos listaSolicitudesProyectos = new ListaSolicitudesProyectos();
     ListaProyectos listaProyectos = new ListaProyectos();
     Usuario usuarioEnLinea;
+    Mapa AMD_Mapa = new Mapa();
+    MapaComponent AMD_MapaDisplay = new MapaComponent(AMD_Mapa);
     private JPanel mainPanel;
     private JPanel InicioSesion;
     private JButton iniciarSesionbtn;
@@ -104,6 +111,14 @@ public class MainInterfaz extends JFrame {
     private JTextField ADM_modContrasenia;
     private JButton ADM_btnGuardar;
     private JButton ADM_btnCancelar;
+    private JPanel Empleado;
+    private JTabbedPane tabbedPane3;
+    private JButton ADM_gestionarLugaresbtn;
+    private JPanel ADM_mpPrincipal;
+    private JTextField ADM_txtMapaX;
+    private JTextField ADM_txtMapaY;
+    private JTextField ADM_txtMapaNombre;
+    private JButton agregarAlMapaButton;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
@@ -117,6 +132,7 @@ public class MainInterfaz extends JFrame {
         EMPGestionarProyectos_lstSolicitudes.setModel(solicitudesDLM);
         USgestionarProyectos_lstProyectos.setModel(proyectosClienteDLM);
         EMPListadoClientes_lst.setModel(listaClientesDLM);
+        ADM_mpPrincipal.add(AMD_MapaDisplay);
 
         registrateButton.addActionListener(new ActionListener() {
             @Override
@@ -156,10 +172,12 @@ public class MainInterfaz extends JFrame {
                     if (usuarioEnLinea instanceof Cliente) {
                         cambiarInterfaz("Clientes");
                         actualizarListaProyectosCliente();
-                    } else if (usuarioEnLinea instanceof Empleado) {
+                    } else if (usuarioEnLinea instanceof Administrador) {
                         cambiarInterfaz("Administrador");
                         actualizarJListClientes();
                         actualizarListaSolicitudesProyectos();
+                    } else if (usuarioEnLinea instanceof Empleado) {
+                        cambiarInterfaz("Empleado");
                     }
                     limpiarCampos(List.of(inicioSesion_textCedula, inicioSesion_Contrasenia));
                 } catch (Exception ex) {
@@ -342,6 +360,31 @@ public class MainInterfaz extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 JOptionPane.showMessageDialog(null, "La cedula es inmutable y no puede ser modificada");
+            }
+        });
+        ADM_gestionarLugaresbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarInterfazEmpleado("GestionarLugares");
+            }
+        });
+        AMD_MapaDisplay.addInputEventListener(new PBasicInputEventHandler() {
+            @Override
+            public void mousePressed(PInputEvent event) {
+                int x = (int) event.getPosition().getX();
+                int y = (int) event.getPosition().getY();
+                ADM_txtMapaX.setText(Integer.toString((x)));
+                ADM_txtMapaY.setText(Integer.toString((y)));
+            }
+        });
+        agregarAlMapaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int x = Integer.parseInt(ADM_txtMapaX.getText());
+                int y = Integer.parseInt(ADM_txtMapaY.getText());
+                PuntoMapa nuevoPunto = new PuntoMapa(ADM_txtMapaNombre.getText(), x, y);
+                AMD_Mapa.addPuntoMapa(nuevoPunto);
+                AMD_MapaDisplay.graficar();
             }
         });
     }
