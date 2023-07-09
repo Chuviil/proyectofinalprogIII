@@ -23,7 +23,7 @@ public class MapaComponent extends PCanvas {
     }
 
     public void graficar() {
-        removeAll();
+        getLayer().removeAllChildren();
         for (PuntoMapa punto : mapa.grafoMapa.vertexSet()) {
             PPath marcadorMapa = PPath.createEllipse(
                     punto.getLocalizacion().getX() - 10,

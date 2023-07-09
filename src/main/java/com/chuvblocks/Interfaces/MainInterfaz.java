@@ -6,6 +6,7 @@ import com.chuvblocks.MapaYGrafo.MapaComponent;
 import com.chuvblocks.MapaYGrafo.PuntoMapa;
 import org.piccolo2d.event.PBasicInputEventHandler;
 import org.piccolo2d.event.PInputEvent;
+import org.piccolo2d.nodes.PPath;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -23,8 +24,9 @@ public class MainInterfaz extends JFrame {
     ListaSolicitudesProyectos listaSolicitudesProyectos = new ListaSolicitudesProyectos();
     ListaProyectos listaProyectos = new ListaProyectos();
     Usuario usuarioEnLinea;
-    Mapa AMD_Mapa = new Mapa();
+    Mapa AMD_Mapa = Mapa.Ejemplo();
     MapaComponent AMD_MapaDisplay = new MapaComponent(AMD_Mapa);
+    MapaComponent US_MapaDisplay = new MapaComponent(AMD_Mapa);
     private JPanel mainPanel;
     private JPanel InicioSesion;
     private JButton iniciarSesionbtn;
@@ -137,6 +139,7 @@ public class MainInterfaz extends JFrame {
     private JButton ADM_modEmpleadobtnGuardar;
     private JButton ADM_modEmpleadobtnCancelar;
     private JPanel ADMGestionarUsuarios_lyEmpleadosLsMod;
+    private JPanel US_mapaSeleccionSol;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
@@ -156,6 +159,7 @@ public class MainInterfaz extends JFrame {
         EMPListadoClientes_lst.setModel(listaClientesDLM);
         EMPListadoEmpleados_lst.setModel(listaEmpleadosDLM);
         ADM_mpPrincipal.add(AMD_MapaDisplay);
+        US_mapaSeleccionSol.add(US_MapaDisplay);
         ADM_MapaLugar1cbo.setModel(listaLugares1MapaDCM);
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
         EMPRevisionSolicitud_cboUbicacionSeleccionada.setModel(listaLugaresDisponiblesMapaDCM);
@@ -218,6 +222,8 @@ public class MainInterfaz extends JFrame {
                     limpiarCampos(List.of(inicioSesion_textCedula, inicioSesion_Contrasenia));
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                } finally {
+                    actualizarListaLugaresCBOs();
                 }
             }
         });
@@ -236,6 +242,7 @@ public class MainInterfaz extends JFrame {
                         (Cliente) usuarioEnLinea
                 );
                 listaSolicitudesProyectos.agregarSolicitud(proyectoSolicitado);
+                US_MapaDisplay.graficar();
             }
         });
         ActionListener listener = new ActionListener() {
@@ -295,6 +302,7 @@ public class MainInterfaz extends JFrame {
                         Float.parseFloat(EMPRevisionSolicitud_txtCapitalInicial.getText()));
                 ((PuntoMapa) listaLugares1MapaDCM.getSelectedItem()).ocuparLugar();
                 AMD_MapaDisplay.graficar();
+                US_MapaDisplay.graficar();
                 actualizarListaLugaresCBOs();
                 listaProyectos.agregarProyecto(nuevoProyecto);
                 CardLayout layout = (CardLayout) EMPGestionarProyectos_lySolicitudes.getLayout();
@@ -432,6 +440,7 @@ public class MainInterfaz extends JFrame {
                 PuntoMapa nuevoPunto = new PuntoMapa(ADM_txtMapaNombre.getText(), x, y);
                 AMD_Mapa.addPuntoMapa(nuevoPunto);
                 AMD_MapaDisplay.graficar();
+                US_MapaDisplay.graficar();
                 actualizarListaLugaresCBOs();
             }
         });
@@ -451,6 +460,7 @@ public class MainInterfaz extends JFrame {
                     JOptionPane.showMessageDialog(null, "Estos lugares ya estan conectados");
                 }
                 AMD_MapaDisplay.graficar();
+                US_MapaDisplay.graficar();
             }
         });
         EMPCrearEmpleados_btnCrear.addActionListener(new ActionListener() {
@@ -499,6 +509,21 @@ public class MainInterfaz extends JFrame {
                 empleadoSeleccionado.setContrasenia(ADM_modEmpleadoContrasenia.getText());
                 CardLayout layout = (CardLayout) ADMGestionarUsuarios_lyEmpleadosLsMod.getLayout();
                 layout.show(ADMGestionarUsuarios_lyEmpleadosLsMod, "listadoEmpleados");
+            }
+        });
+        US_MapaDisplay.addInputEventListener(new PBasicInputEventHandler() {
+            @Override
+            public void mousePressed(PInputEvent event) {
+                US_MapaDisplay.graficar();
+                int x = (int) event.getPosition().getX();
+                int y = (int) event.getPosition().getY();
+                PPath marcadorSeleccionado = PPath.createEllipse(
+                        x - 6,
+                        y - 6, 12, 12);
+                marcadorSeleccionado.setPaint(Color.BLUE);
+                US_MapaDisplay.getLayer().addChild(marcadorSeleccionado);
+                USSolicitarProyecto_txtUbicacionPreferencia.setText(
+                        "Cerca de " + AMD_Mapa.encontrarPuntoMapaMasCercanoACordenada(x,y));
             }
         });
     }
