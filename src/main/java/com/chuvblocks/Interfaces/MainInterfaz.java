@@ -119,9 +119,14 @@ public class MainInterfaz extends JFrame {
     private JTextField ADM_txtMapaY;
     private JTextField ADM_txtMapaNombre;
     private JButton agregarAlMapaButton;
+    private JComboBox<PuntoMapa> ADM_MapaLugar1cbo;
+    private JComboBox<PuntoMapa> ADM_MapaLugar2cbo;
+    private JButton AMD_ConectarLugaresbtn;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
+    private final DefaultComboBoxModel<PuntoMapa> listaLugares1MapaDCM = new DefaultComboBoxModel<>();
+    private final DefaultComboBoxModel<PuntoMapa> listaLugares2MapaDCM = new DefaultComboBoxModel<>();
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,6 +138,8 @@ public class MainInterfaz extends JFrame {
         USgestionarProyectos_lstProyectos.setModel(proyectosClienteDLM);
         EMPListadoClientes_lst.setModel(listaClientesDLM);
         ADM_mpPrincipal.add(AMD_MapaDisplay);
+        ADM_MapaLugar1cbo.setModel(listaLugares1MapaDCM);
+        ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
 
         registrateButton.addActionListener(new ActionListener() {
             @Override
@@ -385,6 +392,25 @@ public class MainInterfaz extends JFrame {
                 PuntoMapa nuevoPunto = new PuntoMapa(ADM_txtMapaNombre.getText(), x, y);
                 AMD_Mapa.addPuntoMapa(nuevoPunto);
                 AMD_MapaDisplay.graficar();
+                actualizarListaLugaresCBOs();
+            }
+        });
+        AMD_ConectarLugaresbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PuntoMapa punto1 = (PuntoMapa) listaLugares1MapaDCM.getSelectedItem();
+                PuntoMapa punto2 = (PuntoMapa) listaLugares2MapaDCM.getSelectedItem();
+                if (punto1 == null || punto2 == null) {
+                    JOptionPane.showMessageDialog(null, "Seleccione 2 puntos primero!");
+                    return;
+                }
+
+                try {
+                    AMD_Mapa.conectarPuntos(punto1, punto2);
+                } catch (Exception ignored) {
+                    JOptionPane.showMessageDialog(null, "Estos lugares ya estan conectados");
+                }
+                AMD_MapaDisplay.graficar();
             }
         });
     }
@@ -430,6 +456,13 @@ public class MainInterfaz extends JFrame {
         for (JTextField campo : campos) {
             campo.setText("");
         }
+    }
+
+    public void actualizarListaLugaresCBOs() {
+        listaLugares1MapaDCM.removeAllElements();
+        listaLugares2MapaDCM.removeAllElements();
+        AMD_Mapa.obtenerPuntosMapa().forEach(listaLugares1MapaDCM::addElement);
+        AMD_Mapa.obtenerPuntosMapa().forEach(listaLugares2MapaDCM::addElement);
     }
 
     public static void main(String[] args) {

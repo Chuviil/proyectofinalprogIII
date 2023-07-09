@@ -5,6 +5,7 @@ import org.jgrapht.graph.DefaultUndirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.Random;
+import java.util.Set;
 
 public class Mapa {
     Graph<PuntoMapa, DefaultWeightedEdge> grafoMapa;
@@ -35,6 +36,10 @@ public class Mapa {
     public void conectarPuntos(PuntoMapa punto1, PuntoMapa punto2) {
         DefaultWeightedEdge conexion = grafoMapa.addEdge(punto1, punto2);
         grafoMapa.setEdgeWeight(conexion, punto1.getLocalizacion().distanciaEntreVectores(punto2.getLocalizacion()));
+    }
+
+    public Set<PuntoMapa> obtenerPuntosMapa() {
+        return grafoMapa.vertexSet();
     }
 
     public static Mapa Ejemplo() {
