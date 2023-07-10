@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MainInterfaz extends JFrame {
@@ -24,6 +25,7 @@ public class MainInterfaz extends JFrame {
     ListaSolicitudesProyectos listaSolicitudesProyectos = new ListaSolicitudesProyectos();
     ListaProyectos listaProyectos = new ListaProyectos();
     ListaSolicitudesCitas listaSolicitudesCitas = new ListaSolicitudesCitas();
+    ListaCitas listaCitas = new ListaCitas();
     Usuario usuarioEnLinea;
     Mapa AMD_Mapa = Mapa.Ejemplo();
     MapaComponent AMD_MapaDisplay = new MapaComponent(AMD_Mapa);
@@ -141,10 +143,29 @@ public class MainInterfaz extends JFrame {
     private JButton ADM_modEmpleadobtnCancelar;
     private JPanel ADMGestionarUsuarios_lyEmpleadosLsMod;
     private JPanel US_mapaSeleccionSol;
+    private JList<SolicitudCita> ADM_GestionProyectosCitaslst;
+    private JButton revisarButton;
+    private JTextArea ADM_CitasRevMotivo;
+    private JTextField ADM_CitasRevSolicitante;
+    private JTextField ADM_CitasRevEMPSolicitado;
+    private JTextField ADM_CitasRevFechaHoraPref;
+    private JSpinner ADM_CitasRevDia;
+    private JSpinner ADM_CitasRevMes;
+    private JSpinner ADM_CitasRevAnio;
+    private JSpinner ADM_CitasRevHora;
+    private JSpinner ADM_CitasRevMinuto;
+    private JComboBox<Empleado> ADM_CitasRevEmpAsignado;
+    private JButton AGENDARButton;
+    private JButton RECHAZARButton;
+    private JButton regresarButton;
+    private JPanel ADM_Citasly;
+    private JList list1;
+    private JButton button1;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
     private final DefaultListModel<Empleado> listaEmpleadosDLM = new DefaultListModel<>();
+    private final DefaultListModel<SolicitudCita> listaCitasDLM = new DefaultListModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares1MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares2MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugaresDisponiblesMapaDCM = new DefaultComboBoxModel<>();
@@ -166,6 +187,7 @@ public class MainInterfaz extends JFrame {
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
         EMPRevisionSolicitud_cboUbicacionSeleccionada.setModel(listaLugaresDisponiblesMapaDCM);
         USagendarCita_cboTrabajador.setModel(listaEmpleadosDCM);
+        ADM_GestionProyectosCitaslst.setModel(listaCitasDLM);
 
         EMPRevisionSolicitud_spDia.setModel(
                 new SpinnerNumberModel(LocalDate.now().getDayOfMonth(), 1, 31,
@@ -175,6 +197,7 @@ public class MainInterfaz extends JFrame {
                         1));
         EMPRevisionSolicitud_spAnio.setModel(
                 new SpinnerNumberModel(LocalDate.now().getYear(), LocalDate.now().getYear(), 3000, 1));
+        ADM_CitasRevEmpAsignado.setModel(listaEmpleadosDCM);
 
         registrateButton.addActionListener(new ActionListener() {
             @Override
@@ -218,6 +241,7 @@ public class MainInterfaz extends JFrame {
                         cambiarInterfaz("Administrador");
                         actualizarJListClientes();
                         actualizarJListEmpleados();
+                        actualizarJListCitas();
                         actualizarListaSolicitudesProyectos();
                     } else if (usuarioEnLinea instanceof Empleado) {
                         cambiarInterfaz("Empleado");
@@ -476,6 +500,7 @@ public class MainInterfaz extends JFrame {
                 try {
                     listaUsuarios.agregarUsuario(nuevoEmpleado);
                     actualizarJListEmpleados();
+                    actualizarListasCBOs();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
@@ -527,20 +552,82 @@ public class MainInterfaz extends JFrame {
                 marcadorSeleccionado.setPaint(Color.BLUE);
                 US_MapaDisplay.getLayer().addChild(marcadorSeleccionado);
                 USSolicitarProyecto_txtUbicacionPreferencia.setText(
-                        "Cerca de " + AMD_Mapa.encontrarPuntoMapaMasCercanoACordenada(x,y));
+                        "Cerca de " + AMD_Mapa.encontrarPuntoMapaMasCercanoACordenada(x, y));
             }
         });
         USagendarCita_btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SolicitudCita nuevaSolicitud = new SolicitudCita(USagendarCita_txtMotivo.getText(),
-                        USagendarCita_txtFecha.getText(), (Empleado) listaEmpleadosDCM.getSelectedItem());
+                        USagendarCita_txtFecha.getText(), (Empleado) listaEmpleadosDCM.getSelectedItem(),
+                        (Cliente) usuarioEnLinea);
                 listaSolicitudesCitas.addSolicitudCita(nuevaSolicitud);
+            }
+        });
+        revisarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ADM_GestionProyectosCitaslst.getSelectedValue() != null) {
+                    CardLayout layout = (CardLayout) ADM_Citasly.getLayout();
+                    layout.show(ADM_Citasly, "revisionCita");
+                    actualizarPresentacionRevisionCita(ADM_GestionProyectosCitaslst.getSelectedValue());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccione una solicitud primero!");
+                }
+            }
+        });
+        regresarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) ADM_Citasly.getLayout();
+                layout.show(ADM_Citasly, "listaCitas");
+            }
+        });
+        RECHAZARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) ADM_Citasly.getLayout();
+                layout.show(ADM_Citasly, "listaCitas");
+                listaSolicitudesCitas.removeSolicitudCita(ADM_GestionProyectosCitaslst.getSelectedValue());
+                actualizarJListCitas();
+            }
+        });
+        AGENDARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LocalDateTime tiempoAsignado = LocalDateTime.of(
+                        (int) ADM_CitasRevAnio.getValue(),
+                        (int) ADM_CitasRevMes.getValue(),
+                        (int) ADM_CitasRevDia.getValue(),
+                        (int) ADM_CitasRevHora.getValue(),
+                        (int) ADM_CitasRevMinuto.getValue()
+                        , 0);
+                SolicitudCita citaSeleccionada = ADM_GestionProyectosCitaslst.getSelectedValue();
+                Cita cita = new Cita(citaSeleccionada.getMensaje(), tiempoAsignado, citaSeleccionada.getEmpleadoPreferido(),
+                        citaSeleccionada.getSolicitante());
+                listaCitas.agregar(cita);
+                CardLayout layout = (CardLayout) ADM_Citasly.getLayout();
+                layout.show(ADM_Citasly, "listaCitas");
+                listaSolicitudesCitas.removeSolicitudCita(ADM_GestionProyectosCitaslst.getSelectedValue());
+                actualizarJListCitas();
             }
         });
     }
 
+    private void actualizarPresentacionRevisionCita(SolicitudCita citaSolicitud) {
+        ADM_CitasRevSolicitante.setText(citaSolicitud.getSolicitante().toString());
+        ADM_CitasRevMotivo.setText(citaSolicitud.getMensaje());
+        ADM_CitasRevEMPSolicitado.setText(citaSolicitud.getEmpleadoPreferido().toString());
+        ADM_CitasRevFechaHoraPref.setText(citaSolicitud.getFechaYHoraPrefencia());
+    }
+
+    private void actualizarJListCitas() {
+        listaCitasDLM.clear();
+        listaSolicitudesCitas.getSolicitudesCitas().forEach(listaCitasDLM::addElement);
+    }
+
     private void actualizarListasCBOs() {
+        listaEmpleadosDCM.removeAllElements();
         listaUsuarios.obtenerEmpleados().forEach(listaEmpleadosDCM::addElement);
     }
 

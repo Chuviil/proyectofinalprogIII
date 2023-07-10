@@ -149,6 +149,7 @@ public class Proyecto {
     @Override
     public String toString() {
         return "Codigo: " + codigo +
-                "\tNombre: " + nombre;
+                "\t   Nombre: " + nombre +
+                "\t   Progreso: " + (int) (((estado.ordinal() + 1) / 6d) * 100) + "%";
     }
 }

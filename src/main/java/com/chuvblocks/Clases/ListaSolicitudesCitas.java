@@ -17,4 +17,8 @@ public class ListaSolicitudesCitas {
     public void addSolicitudCita(SolicitudCita solicitudCita) {
         solicitudesCitas.add(solicitudCita);
     }
+
+    public void removeSolicitudCita(SolicitudCita solicitudCita) {
+        solicitudesCitas.remove(solicitudCita);
+    }
 }
