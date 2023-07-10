@@ -22,4 +22,8 @@ public class ListaProyectos {
     public Stream<Proyecto> obtenerProyectosPorCliente(Cliente cliente) {
         return proyectos.stream().filter(proyecto -> proyecto.getClientePropietario().equals(cliente));
     }
+
+    public Stream<Proyecto> obtenerProyectosPorEmpleado(Empleado empleado) {
+        return proyectos.stream().filter(proyecto -> proyecto.getEmpleadosInvolucrados().contains(empleado));
+    }
 }

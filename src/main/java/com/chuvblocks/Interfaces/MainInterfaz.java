@@ -126,7 +126,6 @@ public class MainInterfaz extends JFrame {
     private JComboBox<PuntoMapa> ADM_MapaLugar1cbo;
     private JComboBox<PuntoMapa> ADM_MapaLugar2cbo;
     private JButton AMD_ConectarLugaresbtn;
-    private JTabbedPane tabbedPane4;
     private JButton EMPListadoEmpleados_btnModificar;
     private JTextField EMPCrearEmpleados_txtEmail;
     private JTextField EMPCrearEmpleados_txtCedula;
@@ -159,10 +158,26 @@ public class MainInterfaz extends JFrame {
     private JButton RECHAZARButton;
     private JButton regresarButton;
     private JPanel ADM_Citasly;
-    private JList list1;
-    private JButton button1;
+    private JButton gestionarProyectosButton1;
+    private JButton gestionarCitasButton;
+    private JTabbedPane tabbedPane2;
+    private JList<Proyecto> EMPGestionProyectosAsignadosls;
+    private JTabbedPane tabbedPane4;
+    private JPanel EMP_PrincipalLy;
+    private JTextField EMPgestionarProyectosAsig_txtUbicacion;
+    private JTextField EMPgestionarProyectosAsig_txtTiempoInicio;
+    private JTextField EMPgestionarProyectosAsig_txtTiempoFinalizacion;
+    private JTextField EMPgestionarProyectosAsig_txtEstado;
+    private JProgressBar EMPgestionarProyectosAsig_pbProgreso;
+    private JList list3;
+    private JButton COMPLETARESTADOButton;
+    private JLabel EMPgestionarProyectosAsig_lbNombreProyecto;
+    private JPanel ADM_GestionarProyectosEstados;
+    private JList ADMGestionarProyectos_lsTodos;
+    private JButton iniciarButton;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
+    private final DefaultListModel<Proyecto> proyectosEmpleadoDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
     private final DefaultListModel<Empleado> listaEmpleadosDLM = new DefaultListModel<>();
     private final DefaultListModel<SolicitudCita> listaCitasDLM = new DefaultListModel<>();
@@ -179,6 +194,7 @@ public class MainInterfaz extends JFrame {
                 1));
         EMPGestionarProyectos_lstSolicitudes.setModel(solicitudesDLM);
         USgestionarProyectos_lstProyectos.setModel(proyectosClienteDLM);
+        EMPGestionProyectosAsignadosls.setModel(proyectosEmpleadoDLM);
         EMPListadoClientes_lst.setModel(listaClientesDLM);
         EMPListadoEmpleados_lst.setModel(listaEmpleadosDLM);
         ADM_mpPrincipal.add(AMD_MapaDisplay);
@@ -245,6 +261,7 @@ public class MainInterfaz extends JFrame {
                         actualizarListaSolicitudesProyectos();
                     } else if (usuarioEnLinea instanceof Empleado) {
                         cambiarInterfaz("Empleado");
+                        actualizarListaProyectosEmpleado();
                     }
                     limpiarCampos(List.of(inicioSesion_textCedula, inicioSesion_Contrasenia));
                 } catch (Exception ex) {
@@ -612,6 +629,26 @@ public class MainInterfaz extends JFrame {
                 actualizarJListCitas();
             }
         });
+        EMPGestionProyectosAsignadosls.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Proyecto proyectoSeleccionado = EMPGestionProyectosAsignadosls.getSelectedValue();
+                if (proyectoSeleccionado != null) {
+                    EMPgestionarProyectosAsig_lbNombreProyecto.setText(proyectoSeleccionado.getNombre());
+                    EMPgestionarProyectosAsig_txtUbicacion.setText(proyectoSeleccionado.getUbicacion());
+                    EMPgestionarProyectosAsig_txtTiempoFinalizacion.setText(proyectoSeleccionado.getFechaFin().toString());
+                    EMPgestionarProyectosAsig_txtTiempoInicio.setText((proyectoSeleccionado.getFechaInicio()) == null ?
+                            "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
+                    EMPgestionarProyectosAsig_txtEstado.setText(proyectoSeleccionado.getEstado().toString());
+                    EMPgestionarProyectosAsig_pbProgreso.setValue((int) (((proyectoSeleccionado.getEstado().ordinal() + 1) / 6.0d) * 100));
+                }
+            }
+        });
+    }
+
+    private void actualizarListaProyectosEmpleado() {
+        proyectosEmpleadoDLM.clear();
+        listaProyectos.obtenerProyectosPorEmpleado((Empleado) usuarioEnLinea).forEach(proyectosClienteDLM::addElement);
     }
 
     private void actualizarPresentacionRevisionCita(SolicitudCita citaSolicitud) {

@@ -90,6 +90,10 @@ public class Proyecto {
         this.empleadosInvolucrados = empleadosInvolucrados;
     }
 
+    public void agregarEmpleadoInvolucrado(Empleado empleado) {
+        this.empleadosInvolucrados.add(empleado);
+    }
+
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
