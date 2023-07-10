@@ -511,8 +511,14 @@ public class MainInterfaz extends JFrame {
         AMD_MapaDisplay.addInputEventListener(new PBasicInputEventHandler() {
             @Override
             public void mousePressed(PInputEvent event) {
+                AMD_MapaDisplay.graficar();
                 int x = (int) event.getPosition().getX();
                 int y = (int) event.getPosition().getY();
+                PPath marcadorSeleccionado = PPath.createEllipse(
+                        x - 6,
+                        y - 6, 12, 12);
+                marcadorSeleccionado.setPaint(Color.BLUE);
+                AMD_MapaDisplay.getLayer().addChild(marcadorSeleccionado);
                 ADM_txtMapaX.setText(Integer.toString((x)));
                 ADM_txtMapaY.setText(Integer.toString((y)));
             }
@@ -779,7 +785,7 @@ public class MainInterfaz extends JFrame {
         COMPLETARESTADOButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(EMPGestionProyectosAsignadosls.getSelectedValue() == null) {
+                if (EMPGestionProyectosAsignadosls.getSelectedValue() == null) {
                     JOptionPane.showMessageDialog(null, "Debe seleccionar un proyecto");
                     return;
                 }
