@@ -192,6 +192,7 @@ public class MainInterfaz extends JFrame {
     private JButton ADM_ProyectosIniciarbtnIniciar;
     private JLabel ADM_ProyectosIniciarlbNombreP;
     private JButton ADM_ProyectosIniciarbtnCancelar;
+    private JButton CERRARSESIONButton;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosEmpleadoDLM = new DefaultListModel<>();
@@ -788,6 +789,12 @@ public class MainInterfaz extends JFrame {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
                 actualizarListaProyectosEmpleado();
+            }
+        });
+        CERRARSESIONButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarInterfaz("InicioSesion");
             }
         });
     }
