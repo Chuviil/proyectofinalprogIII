@@ -38,6 +38,7 @@ public class Proyecto {
         this.ubicacion = ubicacion;
         this.costoInicial = costoInicial;
         this.capitalInicial = capitalInicial;
+        this.empleadosInvolucrados = new ArrayList<>();
         contadorProyectos++;
     }
 

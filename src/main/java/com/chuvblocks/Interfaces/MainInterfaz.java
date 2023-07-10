@@ -188,7 +188,7 @@ public class MainInterfaz extends JFrame {
     private JTextField ADM_ProyectosIniciartxtTiempoFinal;
     private JTextField ADM_ProyectosIniciartxtEstado;
     private JProgressBar ADM_ProyectosIniciarpbProgreso;
-    private JList ADM_ProyectosIniciarlsTrabajadores;
+    private JList<Empleado> ADM_ProyectosIniciarlsTrabajadores;
     private JButton ADM_ProyectosIniciarbtnIniciar;
     private JLabel ADM_ProyectosIniciarlbNombreP;
     private JButton ADM_ProyectosIniciarbtnCancelar;
@@ -747,14 +747,32 @@ public class MainInterfaz extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (ADMGestionarProyectos_lsTodos.getSelectedValue().getEmpleadosInvolucrados().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un empleado");
+                    JOptionPane.showMessageDialog(null, "Debe agregar al menos un empleado");
                     return;
                 }
-                LocalDate fechaInicio = LocalDate.of((int) ADM_ProyectosIniciarspDia.getValue(),
-                        (int) ADM_ProyectosIniciarspMes.getValue(), (int) ADM_ProyectosIniciarspAnio.getValue());
+                LocalDate fechaInicio = LocalDate.of((int) ADM_ProyectosIniciarspAnio.getValue(),
+                        (int) ADM_ProyectosIniciarspMes.getValue(), (int) ADM_ProyectosIniciarspDia.getValue());
                 ADMGestionarProyectos_lsTodos.getSelectedValue().setFechaInicio(fechaInicio);
+                ADMGestionarProyectos_lsTodos.getSelectedValue().completarUltimoEstado();
                 CardLayout layout = (CardLayout) ADM_GestionarProyectosEstados.getLayout();
                 layout.show(ADM_GestionarProyectosEstados, "listaTodosProyectos");
+            }
+        });
+        ADM_ProyectosIniciarbtnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) ADM_GestionarProyectosEstados.getLayout();
+                layout.show(ADM_GestionarProyectosEstados, "listaTodosProyectos");
+            }
+        });
+        ADM_ProyectosIniciarbtnAgregar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Proyecto proyectoSeleccionado = ADMGestionarProyectos_lsTodos.getSelectedValue();
+                proyectoSeleccionado.agregarEmpleadoInvolucrado((Empleado) ADM_ProyectosIniciarcboAsigTrabajadores.getSelectedItem());
+                DefaultListModel<Empleado> listaEmpleadosInv = new DefaultListModel<>();
+                proyectoSeleccionado.getEmpleadosInvolucrados().forEach(listaEmpleadosInv::addElement);
+                ADM_ProyectosIniciarlsTrabajadores.setModel(listaEmpleadosInv);
             }
         });
     }
