@@ -23,6 +23,7 @@ public class MainInterfaz extends JFrame {
     ListaUsuarios listaUsuarios = new ListaUsuarios();
     ListaSolicitudesProyectos listaSolicitudesProyectos = new ListaSolicitudesProyectos();
     ListaProyectos listaProyectos = new ListaProyectos();
+    ListaSolicitudesCitas listaSolicitudesCitas = new ListaSolicitudesCitas();
     Usuario usuarioEnLinea;
     Mapa AMD_Mapa = Mapa.Ejemplo();
     MapaComponent AMD_MapaDisplay = new MapaComponent(AMD_Mapa);
@@ -58,7 +59,7 @@ public class MainInterfaz extends JFrame {
     private JList<Empleado> USgestionarProyectos_jListTrabajadores;
     private JTextArea USagendarCita_txtMotivo;
     private JTextField USagendarCita_txtFecha;
-    private JTextField USagendarCita_txtTrabajador;
+    private JComboBox<Empleado> USagendarCita_cboTrabajador;
     private JButton USagendarCita_btnEnviar;
     private JLabel USgestionarProyectos_lbNombreProyecto;
     private JButton gestionarUsuariosButton;
@@ -147,6 +148,7 @@ public class MainInterfaz extends JFrame {
     private final DefaultComboBoxModel<PuntoMapa> listaLugares1MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares2MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugaresDisponiblesMapaDCM = new DefaultComboBoxModel<>();
+    private final DefaultComboBoxModel<Empleado> listaEmpleadosDCM = new DefaultComboBoxModel<>();
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -163,6 +165,7 @@ public class MainInterfaz extends JFrame {
         ADM_MapaLugar1cbo.setModel(listaLugares1MapaDCM);
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
         EMPRevisionSolicitud_cboUbicacionSeleccionada.setModel(listaLugaresDisponiblesMapaDCM);
+        USagendarCita_cboTrabajador.setModel(listaEmpleadosDCM);
 
         EMPRevisionSolicitud_spDia.setModel(
                 new SpinnerNumberModel(LocalDate.now().getDayOfMonth(), 1, 31,
@@ -224,6 +227,7 @@ public class MainInterfaz extends JFrame {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                 } finally {
                     actualizarListaLugaresCBOs();
+                    actualizarListasCBOs();
                 }
             }
         });
@@ -526,6 +530,18 @@ public class MainInterfaz extends JFrame {
                         "Cerca de " + AMD_Mapa.encontrarPuntoMapaMasCercanoACordenada(x,y));
             }
         });
+        USagendarCita_btnEnviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SolicitudCita nuevaSolicitud = new SolicitudCita(USagendarCita_txtMotivo.getText(),
+                        USagendarCita_txtFecha.getText(), (Empleado) listaEmpleadosDCM.getSelectedItem());
+                listaSolicitudesCitas.addSolicitudCita(nuevaSolicitud);
+            }
+        });
+    }
+
+    private void actualizarListasCBOs() {
+        listaUsuarios.obtenerEmpleados().forEach(listaEmpleadosDCM::addElement);
     }
 
     private void cambiarInterfaz(String nombreInterfaz) {

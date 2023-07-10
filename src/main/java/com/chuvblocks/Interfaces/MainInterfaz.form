@@ -749,7 +749,7 @@
                           <text value="Trabajador con el que desea la cita (Opcional)"/>
                         </properties>
                       </component>
-                      <component id="cc4cf" class="javax.swing.JTextField" binding="USagendarCita_txtTrabajador">
+                      <component id="2cdc2" class="javax.swing.JComboBox" binding="USagendarCita_cboTrabajador">
                         <constraints>
                           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
