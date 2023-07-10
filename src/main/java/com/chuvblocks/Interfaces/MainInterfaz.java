@@ -728,7 +728,7 @@ public class MainInterfaz extends JFrame {
                     return;
                 }
                 if (ADMGestionarProyectos_lsTodos.getSelectedValue().getFechaInicio() != null) {
-                    JOptionPane.showMessageDialog(null, "Este proyecto ya fui iniciado");
+                    JOptionPane.showMessageDialog(null, "Este proyecto ya fue iniciado");
                     return;
                 }
                 Proyecto proyectoSeleccionado = ADMGestionarProyectos_lsTodos.getSelectedValue();
@@ -775,6 +775,21 @@ public class MainInterfaz extends JFrame {
                 ADM_ProyectosIniciarlsTrabajadores.setModel(listaEmpleadosInv);
             }
         });
+        COMPLETARESTADOButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(EMPGestionProyectosAsignadosls.getSelectedValue() == null) {
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar un proyecto");
+                    return;
+                }
+                try {
+                    EMPGestionProyectosAsignadosls.getSelectedValue().completarUltimoEstado();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+                actualizarListaProyectosEmpleado();
+            }
+        });
     }
 
     private void actualizarListaCitasEmpleado() {
@@ -784,7 +799,7 @@ public class MainInterfaz extends JFrame {
 
     private void actualizarListaProyectosEmpleado() {
         proyectosEmpleadoDLM.clear();
-        listaProyectos.obtenerProyectosPorEmpleado((Empleado) usuarioEnLinea).forEach(proyectosClienteDLM::addElement);
+        listaProyectos.obtenerProyectosPorEmpleado((Empleado) usuarioEnLinea).forEach(proyectosEmpleadoDLM::addElement);
     }
 
     private void actualizarPresentacionRevisionCita(SolicitudCita citaSolicitud) {
