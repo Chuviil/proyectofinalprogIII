@@ -18,6 +18,10 @@ public class ListaCitas {
         return citas.stream().filter(cita -> cita.getEmpleadoAsignado().equals(empleado));
     }
 
+    public Cita desencolarCita() {
+        return citas.poll();
+    }
+
     public Queue<Cita> getCitas() {
         return citas;
     }

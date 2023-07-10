@@ -150,6 +150,17 @@ public class Proyecto {
         this.costoActual = costoActual;
     }
 
+    public void completarUltimoEstado() {
+        switch (estado) {
+            case PLANIFICACION -> this.estado = EstadoProyecto.PRESUPUESTO;
+            case PRESUPUESTO -> this.estado = EstadoProyecto.PROCESOS_JUDICIALES;
+            case PROCESOS_JUDICIALES -> this.estado = EstadoProyecto.TERRENO_Y_CIMENTACION;
+            case TERRENO_Y_CIMENTACION -> this.estado = EstadoProyecto.OBRA_GRIS;
+            case OBRA_GRIS -> this.estado = EstadoProyecto.ACABADOS;
+            default -> throw new IllegalStateException("El proyecto ya se encuentra en la última fase");
+        }
+    }
+
     @Override
     public String toString() {
         return "Codigo: " + codigo +

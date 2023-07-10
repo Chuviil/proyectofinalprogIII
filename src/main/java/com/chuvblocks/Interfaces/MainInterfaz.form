@@ -2184,7 +2184,7 @@
                         <children>
                           <grid id="2e968" layout-manager="BorderLayout" hgap="0" vgap="0">
                             <constraints>
-                              <card name="Card1"/>
+                              <card name="listaTodosProyectos"/>
                             </constraints>
                             <properties/>
                             <border type="none"/>
@@ -2234,7 +2234,7 @@
                           </grid>
                           <grid id="434c9" layout-manager="BorderLayout" hgap="0" vgap="0">
                             <constraints>
-                              <card name="Card2"/>
+                              <card name="iniciarProyecto"/>
                             </constraints>
                             <properties/>
                             <border type="none"/>
@@ -2254,7 +2254,7 @@
                                       <text value="INFORMACIÓN PROYECTO"/>
                                     </properties>
                                   </component>
-                                  <component id="57681" class="javax.swing.JLabel">
+                                  <component id="57681" class="javax.swing.JLabel" binding="ADM_ProyectosIniciarlbNombreP">
                                     <constraints>
                                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
@@ -2325,7 +2325,7 @@
                                           <text value="Trabajadores Asignados:"/>
                                         </properties>
                                       </component>
-                                      <component id="ba9d2" class="javax.swing.JTextField">
+                                      <component id="ba9d2" class="javax.swing.JTextField" binding="ADM_ProyectosIniciartxtUbicacion">
                                         <constraints>
                                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                             <preferred-size width="150" height="-1"/>
@@ -2335,7 +2335,7 @@
                                           <editable value="false"/>
                                         </properties>
                                       </component>
-                                      <component id="f5ae4" class="javax.swing.JTextField">
+                                      <component id="f5ae4" class="javax.swing.JTextField" binding="ADM_ProyectosIniciartxtTiempoInicio">
                                         <constraints>
                                           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                             <preferred-size width="150" height="-1"/>
@@ -2345,7 +2345,7 @@
                                           <editable value="false"/>
                                         </properties>
                                       </component>
-                                      <component id="a6ac5" class="javax.swing.JTextField">
+                                      <component id="a6ac5" class="javax.swing.JTextField" binding="ADM_ProyectosIniciartxtTiempoFinal">
                                         <constraints>
                                           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                             <preferred-size width="150" height="-1"/>
@@ -2355,7 +2355,7 @@
                                           <editable value="false"/>
                                         </properties>
                                       </component>
-                                      <component id="776" class="javax.swing.JTextField">
+                                      <component id="776" class="javax.swing.JTextField" binding="ADM_ProyectosIniciartxtEstado">
                                         <constraints>
                                           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                             <preferred-size width="150" height="-1"/>
@@ -2365,7 +2365,7 @@
                                           <editable value="false"/>
                                         </properties>
                                       </component>
-                                      <component id="47fb7" class="javax.swing.JProgressBar">
+                                      <component id="47fb7" class="javax.swing.JProgressBar" binding="ADM_ProyectosIniciarpbProgreso">
                                         <constraints>
                                           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                             <preferred-size width="150" height="-1"/>
@@ -2373,23 +2373,13 @@
                                         </constraints>
                                         <properties/>
                                       </component>
-                                      <component id="e63da" class="javax.swing.JList" default-binding="true">
+                                      <component id="e63da" class="javax.swing.JList" binding="ADM_ProyectosIniciarlsTrabajadores">
                                         <constraints>
                                           <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                             <preferred-size width="150" height="50"/>
                                           </grid>
                                         </constraints>
                                         <properties/>
-                                      </component>
-                                      <component id="e41d0" class="javax.swing.JButton" default-binding="true">
-                                        <constraints>
-                                          <grid row="12" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                                        </constraints>
-                                        <properties>
-                                          <background color="-10566845"/>
-                                          <borderPainted value="false"/>
-                                          <text value="Iniciar Proyecto"/>
-                                        </properties>
                                       </component>
                                       <vspacer id="d8d3f">
                                         <constraints>
@@ -2421,13 +2411,13 @@
                                         <properties/>
                                         <border type="none"/>
                                         <children>
-                                          <component id="4e272" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                                          <component id="4e272" class="javax.swing.JComboBox" binding="ADM_ProyectosIniciarcboAsigTrabajadores">
                                             <constraints>
                                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                                             </constraints>
                                             <properties/>
                                           </component>
-                                          <component id="bcf89" class="javax.swing.JButton" binding="agregarButton" default-binding="true">
+                                          <component id="bcf89" class="javax.swing.JButton" binding="ADM_ProyectosIniciarbtnAgregar">
                                             <constraints>
                                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                             </constraints>
@@ -2461,7 +2451,7 @@
                                               <text value="Día:"/>
                                             </properties>
                                           </component>
-                                          <component id="480ba" class="javax.swing.JSpinner" binding="textField1" default-binding="true">
+                                          <component id="480ba" class="javax.swing.JSpinner" binding="ADM_ProyectosIniciarspDia">
                                             <constraints>
                                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                                 <preferred-size width="150" height="-1"/>
@@ -2477,7 +2467,7 @@
                                               <text value="Mes:"/>
                                             </properties>
                                           </component>
-                                          <component id="b3b4b" class="javax.swing.JSpinner" binding="textField2" default-binding="true">
+                                          <component id="b3b4b" class="javax.swing.JSpinner" binding="ADM_ProyectosIniciarspMes">
                                             <constraints>
                                               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                                 <preferred-size width="150" height="-1"/>
@@ -2493,13 +2483,43 @@
                                               <text value="Año:"/>
                                             </properties>
                                           </component>
-                                          <component id="b5610" class="javax.swing.JSpinner" binding="textField3" default-binding="true">
+                                          <component id="b5610" class="javax.swing.JSpinner" binding="ADM_ProyectosIniciarspAnio">
                                             <constraints>
                                               <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                                 <preferred-size width="150" height="-1"/>
                                               </grid>
                                             </constraints>
                                             <properties/>
+                                          </component>
+                                        </children>
+                                      </grid>
+                                      <grid id="be834" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                        <margin top="0" left="0" bottom="0" right="0"/>
+                                        <constraints>
+                                          <grid row="12" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties/>
+                                        <border type="none"/>
+                                        <children>
+                                          <component id="e41d0" class="javax.swing.JButton" binding="ADM_ProyectosIniciarbtnIniciar">
+                                            <constraints>
+                                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <background color="-10566845"/>
+                                              <borderPainted value="false"/>
+                                              <text value="Iniciar Proyecto"/>
+                                            </properties>
+                                          </component>
+                                          <component id="5d351" class="javax.swing.JButton" binding="ADM_ProyectosIniciarbtnCancelar">
+                                            <constraints>
+                                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                            </constraints>
+                                            <properties>
+                                              <background color="-3979979"/>
+                                              <borderPainted value="false"/>
+                                              <text value="Cancelar"/>
+                                            </properties>
                                           </component>
                                         </children>
                                       </grid>
@@ -3395,7 +3415,7 @@
                                 </constraints>
                                 <properties/>
                               </component>
-                              <component id="95afd" class="javax.swing.JButton" binding="COMPLETARCITAButton" default-binding="true">
+                              <component id="95afd" class="javax.swing.JButton" binding="COMPLETARULTIMACITAButton" default-binding="true">
                                 <constraints>
                                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                 </constraints>
@@ -3403,7 +3423,7 @@
                                   <background color="-10566845"/>
                                   <borderPainted value="false"/>
                                   <requestFocusEnabled value="true"/>
-                                  <text value="COMPLETAR CITA"/>
+                                  <text value="COMPLETAR ULTIMA CITA"/>
                                 </properties>
                               </component>
                             </children>

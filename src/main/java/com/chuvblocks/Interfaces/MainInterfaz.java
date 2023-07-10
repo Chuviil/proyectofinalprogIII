@@ -173,19 +173,29 @@ public class MainInterfaz extends JFrame {
     private JButton COMPLETARESTADOButton;
     private JLabel EMPgestionarProyectosAsig_lbNombreProyecto;
     private JPanel ADM_GestionarProyectosEstados;
-    private JList ADMGestionarProyectos_lsTodos;
+    private JList<Proyecto> ADMGestionarProyectos_lsTodos;
     private JButton iniciarButton;
-    private JComboBox comboBox1;
-    private JButton agregarButton;
-    private JSpinner textField1;
-    private JSpinner textField2;
-    private JSpinner textField3;
+    private JComboBox<Empleado> ADM_ProyectosIniciarcboAsigTrabajadores;
+    private JButton ADM_ProyectosIniciarbtnAgregar;
+    private JSpinner ADM_ProyectosIniciarspDia;
+    private JSpinner ADM_ProyectosIniciarspMes;
+    private JSpinner ADM_ProyectosIniciarspAnio;
     private JList<Cita> EMPGestionCitas_lsCitas;
     private JTextArea EMPGestionCitas_txMotivo;
-    private JButton COMPLETARCITAButton;
+    private JButton COMPLETARULTIMACITAButton;
+    private JTextField ADM_ProyectosIniciartxtUbicacion;
+    private JTextField ADM_ProyectosIniciartxtTiempoInicio;
+    private JTextField ADM_ProyectosIniciartxtTiempoFinal;
+    private JTextField ADM_ProyectosIniciartxtEstado;
+    private JProgressBar ADM_ProyectosIniciarpbProgreso;
+    private JList ADM_ProyectosIniciarlsTrabajadores;
+    private JButton ADM_ProyectosIniciarbtnIniciar;
+    private JLabel ADM_ProyectosIniciarlbNombreP;
+    private JButton ADM_ProyectosIniciarbtnCancelar;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosEmpleadoDLM = new DefaultListModel<>();
+    private final DefaultListModel<Proyecto> proyectosTodosDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
     private final DefaultListModel<Empleado> listaEmpleadosDLM = new DefaultListModel<>();
     private final DefaultListModel<SolicitudCita> listaCitasSolicitudDLM = new DefaultListModel<>();
@@ -212,6 +222,7 @@ public class MainInterfaz extends JFrame {
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
         EMPRevisionSolicitud_cboUbicacionSeleccionada.setModel(listaLugaresDisponiblesMapaDCM);
         USagendarCita_cboTrabajador.setModel(listaEmpleadosDCM);
+        ADM_ProyectosIniciarcboAsigTrabajadores.setModel(listaEmpleadosDCM);
         ADM_GestionProyectosCitaslst.setModel(listaCitasSolicitudDLM);
         EMPGestionCitas_lsCitas.setModel(listaCitasDLM);
 
@@ -235,8 +246,18 @@ public class MainInterfaz extends JFrame {
         ADM_CitasRevHora.setModel(new SpinnerNumberModel(0, 0, 23, 1));
         ADM_CitasRevMinuto.setModel(new SpinnerNumberModel(0, 0, 59, 1));
 
+        ADM_ProyectosIniciarspDia.setModel(
+                new SpinnerNumberModel(LocalDate.now().getDayOfMonth(), 1, 31,
+                        1));
+        ADM_ProyectosIniciarspMes.setModel(
+                new SpinnerNumberModel(LocalDate.now().getMonthValue(), 1, 12,
+                        1));
+        ADM_ProyectosIniciarspAnio.setModel(
+                new SpinnerNumberModel(LocalDate.now().getYear(), LocalDate.now().getYear(), 3000, 1));
+
 
         ADM_CitasRevEmpAsignado.setModel(listaEmpleadosDCM);
+        ADMGestionarProyectos_lsTodos.setModel(proyectosTodosDLM);
 
         registrateButton.addActionListener(new ActionListener() {
             @Override
@@ -378,6 +399,7 @@ public class MainInterfaz extends JFrame {
                 layout.show(EMPGestionarProyectos_lySolicitudes, "ListadoSolicitudes");
                 listaSolicitudesProyectos.eliminarSolicitud(EMPGestionarProyectos_lstSolicitudes.getSelectedValue());
                 actualizarListaSolicitudesProyectos();
+                actualizarJListClientes();
             }
         });
         EMPRevisionSolicitud_btnRechazar.addActionListener(new ActionListener() {
@@ -688,6 +710,53 @@ public class MainInterfaz extends JFrame {
                 EMPGestionCitas_txMotivo.setText(EMPGestionCitas_lsCitas.getSelectedValue().getMotivo());
             }
         });
+        COMPLETARULTIMACITAButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cita citaCompletada = listaCitas.desencolarCita();
+                JOptionPane.showMessageDialog(null, "Se completo la cita de "
+                        + citaCompletada.getSolicitante().getNombre() + "\nMotivo: " + citaCompletada.getMotivo() +
+                        "\nFecha: " + citaCompletada.getFechaYHora().toString());
+                actualizarListaCitasEmpleado();
+            }
+        });
+        iniciarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ADMGestionarProyectos_lsTodos.getSelectedValue() == null) {
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar un proyecto");
+                    return;
+                }
+                if (ADMGestionarProyectos_lsTodos.getSelectedValue().getFechaInicio() != null) {
+                    JOptionPane.showMessageDialog(null, "Este proyecto ya fui iniciado");
+                    return;
+                }
+                Proyecto proyectoSeleccionado = ADMGestionarProyectos_lsTodos.getSelectedValue();
+                ADM_ProyectosIniciarlbNombreP.setText(proyectoSeleccionado.getNombre());
+                ADM_ProyectosIniciartxtUbicacion.setText(proyectoSeleccionado.getUbicacion());
+                ADM_ProyectosIniciartxtTiempoFinal.setText(proyectoSeleccionado.getFechaFin().toString());
+                ADM_ProyectosIniciartxtTiempoInicio.setText((proyectoSeleccionado.getFechaInicio()) == null ?
+                        "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
+                ADM_ProyectosIniciartxtEstado.setText(proyectoSeleccionado.getEstado().toString());
+                ADM_ProyectosIniciarpbProgreso.setValue((int) (((proyectoSeleccionado.getEstado().ordinal() + 1) / 6.0d) * 100));
+                CardLayout layout = (CardLayout) ADM_GestionarProyectosEstados.getLayout();
+                layout.show(ADM_GestionarProyectosEstados, "iniciarProyecto");
+            }
+        });
+        ADM_ProyectosIniciarbtnIniciar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (ADMGestionarProyectos_lsTodos.getSelectedValue().getEmpleadosInvolucrados().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un empleado");
+                    return;
+                }
+                LocalDate fechaInicio = LocalDate.of((int) ADM_ProyectosIniciarspDia.getValue(),
+                        (int) ADM_ProyectosIniciarspMes.getValue(), (int) ADM_ProyectosIniciarspAnio.getValue());
+                ADMGestionarProyectos_lsTodos.getSelectedValue().setFechaInicio(fechaInicio);
+                CardLayout layout = (CardLayout) ADM_GestionarProyectosEstados.getLayout();
+                layout.show(ADM_GestionarProyectosEstados, "listaTodosProyectos");
+            }
+        });
     }
 
     private void actualizarListaCitasEmpleado() {
@@ -729,7 +798,9 @@ public class MainInterfaz extends JFrame {
 
     private void actualizarJListClientes() {
         listaClientesDLM.clear();
+        proyectosTodosDLM.clear();
         listaUsuarios.obtenerClientes().forEach(listaClientesDLM::addElement);
+        listaProyectos.getProyectos().forEach(proyectosTodosDLM::addElement);
     }
 
     private void actualizarJListEmpleados() {
