@@ -43,7 +43,13 @@ public class MapaComponent extends PCanvas {
                     destino.getLocalizacion().getX(), destino.getLocalizacion().getY()
             );
             linea.setPaint(Color.BLACK);
+            PText textoPonderacion = new PText(String.valueOf(mapa.grafoMapa.getEdgeWeight(vertice)) + "m");
+            textoPonderacion.setBounds(
+                    (double) (fuente.getLocalizacion().getX() + destino.getLocalizacion().getX()) / 2,
+                    (double) (fuente.getLocalizacion().getY() + destino.getLocalizacion().getY()) / 2,
+                    10, 10);
             getLayer().addChild(linea);
+            getLayer().addChild(textoPonderacion);
         }
 
     }

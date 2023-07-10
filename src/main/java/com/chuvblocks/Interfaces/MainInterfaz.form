@@ -3094,7 +3094,7 @@
               <grid id="60265" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <card name="Card1"/>
+                  <card name="gestionProyectos"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -3311,7 +3311,7 @@
               <grid id="8f2ad" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <card name="Card2"/>
+                  <card name="gestionCitas"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -3325,14 +3325,90 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <grid id="fb890" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
+                      <grid id="fb890" layout-manager="BorderLayout" hgap="0" vgap="0">
                         <constraints>
                           <tabbedpane title="Citas Asignadas"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
-                        <children/>
+                        <children>
+                          <component id="89f87" class="javax.swing.JList" binding="EMPGestionCitas_lsCitas">
+                            <constraints border-constraint="Center"/>
+                            <properties/>
+                          </component>
+                          <grid id="9f24b" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints border-constraint="North"/>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="271bd" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <font size="18" style="1"/>
+                                  <text value="Citas"/>
+                                </properties>
+                              </component>
+                              <hspacer id="74c53">
+                                <constraints>
+                                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </hspacer>
+                              <hspacer id="1cfb9">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </hspacer>
+                            </children>
+                          </grid>
+                          <grid id="c5519" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints border-constraint="South"/>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="d2b50" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <font size="16" style="1"/>
+                                  <text value="Informacion Cita"/>
+                                </properties>
+                              </component>
+                              <component id="e5b0f" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <font style="1"/>
+                                  <text value="Motivo"/>
+                                </properties>
+                              </component>
+                              <component id="164a0" class="javax.swing.JTextArea" binding="EMPGestionCitas_txMotivo">
+                                <constraints>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="50"/>
+                                  </grid>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="95afd" class="javax.swing.JButton" binding="COMPLETARCITAButton" default-binding="true">
+                                <constraints>
+                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <background color="-10566845"/>
+                                  <borderPainted value="false"/>
+                                  <requestFocusEnabled value="true"/>
+                                  <text value="COMPLETAR CITA"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                        </children>
                       </grid>
                     </children>
                   </tabbedpane>

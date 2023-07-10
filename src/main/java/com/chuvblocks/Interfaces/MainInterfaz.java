@@ -180,12 +180,16 @@ public class MainInterfaz extends JFrame {
     private JSpinner textField1;
     private JSpinner textField2;
     private JSpinner textField3;
+    private JList<Cita> EMPGestionCitas_lsCitas;
+    private JTextArea EMPGestionCitas_txMotivo;
+    private JButton COMPLETARCITAButton;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosEmpleadoDLM = new DefaultListModel<>();
     private final DefaultListModel<Cliente> listaClientesDLM = new DefaultListModel<>();
     private final DefaultListModel<Empleado> listaEmpleadosDLM = new DefaultListModel<>();
-    private final DefaultListModel<SolicitudCita> listaCitasDLM = new DefaultListModel<>();
+    private final DefaultListModel<SolicitudCita> listaCitasSolicitudDLM = new DefaultListModel<>();
+    private final DefaultListModel<Cita> listaCitasDLM = new DefaultListModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares1MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugares2MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugaresDisponiblesMapaDCM = new DefaultComboBoxModel<>();
@@ -208,7 +212,8 @@ public class MainInterfaz extends JFrame {
         ADM_MapaLugar2cbo.setModel(listaLugares2MapaDCM);
         EMPRevisionSolicitud_cboUbicacionSeleccionada.setModel(listaLugaresDisponiblesMapaDCM);
         USagendarCita_cboTrabajador.setModel(listaEmpleadosDCM);
-        ADM_GestionProyectosCitaslst.setModel(listaCitasDLM);
+        ADM_GestionProyectosCitaslst.setModel(listaCitasSolicitudDLM);
+        EMPGestionCitas_lsCitas.setModel(listaCitasDLM);
 
         EMPRevisionSolicitud_spDia.setModel(
                 new SpinnerNumberModel(LocalDate.now().getDayOfMonth(), 1, 31,
@@ -218,6 +223,19 @@ public class MainInterfaz extends JFrame {
                         1));
         EMPRevisionSolicitud_spAnio.setModel(
                 new SpinnerNumberModel(LocalDate.now().getYear(), LocalDate.now().getYear(), 3000, 1));
+
+        ADM_CitasRevDia.setModel(
+                new SpinnerNumberModel(LocalDate.now().getDayOfMonth(), 1, 31,
+                        1));
+        ADM_CitasRevMes.setModel(
+                new SpinnerNumberModel(LocalDate.now().getMonthValue(), 1, 12,
+                        1));
+        ADM_CitasRevAnio.setModel(
+                new SpinnerNumberModel(LocalDate.now().getYear(), LocalDate.now().getYear(), 3000, 1));
+        ADM_CitasRevHora.setModel(new SpinnerNumberModel(0, 0, 23, 1));
+        ADM_CitasRevMinuto.setModel(new SpinnerNumberModel(0, 0, 59, 1));
+
+
         ADM_CitasRevEmpAsignado.setModel(listaEmpleadosDCM);
 
         registrateButton.addActionListener(new ActionListener() {
@@ -267,6 +285,7 @@ public class MainInterfaz extends JFrame {
                     } else if (usuarioEnLinea instanceof Empleado) {
                         cambiarInterfaz("Empleado");
                         actualizarListaProyectosEmpleado();
+                        actualizarListaCitasEmpleado();
                     }
                     limpiarCampos(List.of(inicioSesion_textCedula, inicioSesion_Contrasenia));
                 } catch (Exception ex) {
@@ -649,6 +668,31 @@ public class MainInterfaz extends JFrame {
                 }
             }
         });
+        gestionarProyectosButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) EMP_PrincipalLy.getLayout();
+                layout.show(EMP_PrincipalLy, "gestionProyectos");
+            }
+        });
+        gestionarCitasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout layout = (CardLayout) EMP_PrincipalLy.getLayout();
+                layout.show(EMP_PrincipalLy, "gestionCitas");
+            }
+        });
+        EMPGestionCitas_lsCitas.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                EMPGestionCitas_txMotivo.setText(EMPGestionCitas_lsCitas.getSelectedValue().getMotivo());
+            }
+        });
+    }
+
+    private void actualizarListaCitasEmpleado() {
+        listaCitasDLM.removeAllElements();
+        listaCitas.obtenerCitasPorEmpleado((Empleado) usuarioEnLinea).forEach(listaCitasDLM::addElement);
     }
 
     private void actualizarListaProyectosEmpleado() {
@@ -664,8 +708,8 @@ public class MainInterfaz extends JFrame {
     }
 
     private void actualizarJListCitas() {
-        listaCitasDLM.clear();
-        listaSolicitudesCitas.getSolicitudesCitas().forEach(listaCitasDLM::addElement);
+        listaCitasSolicitudDLM.clear();
+        listaSolicitudesCitas.getSolicitudesCitas().forEach(listaCitasSolicitudDLM::addElement);
     }
 
     private void actualizarListasCBOs() {
