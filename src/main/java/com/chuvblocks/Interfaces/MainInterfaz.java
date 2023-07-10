@@ -175,6 +175,11 @@ public class MainInterfaz extends JFrame {
     private JPanel ADM_GestionarProyectosEstados;
     private JList ADMGestionarProyectos_lsTodos;
     private JButton iniciarButton;
+    private JComboBox comboBox1;
+    private JButton agregarButton;
+    private JSpinner textField1;
+    private JSpinner textField2;
+    private JSpinner textField3;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosEmpleadoDLM = new DefaultListModel<>();
