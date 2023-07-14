@@ -714,7 +714,9 @@ public class MainInterfaz extends JFrame {
         EMPGestionCitas_lsCitas.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                EMPGestionCitas_txMotivo.setText(EMPGestionCitas_lsCitas.getSelectedValue().getMotivo());
+                if (EMPGestionCitas_lsCitas.getSelectedValue() != null) {
+                    EMPGestionCitas_txMotivo.setText(EMPGestionCitas_lsCitas.getSelectedValue().getMotivo());
+                }
             }
         });
         COMPLETARULTIMACITAButton.addActionListener(new ActionListener() {
@@ -724,6 +726,8 @@ public class MainInterfaz extends JFrame {
                 JOptionPane.showMessageDialog(null, "Se completo la cita de "
                         + citaCompletada.getSolicitante().getNombre() + "\nMotivo: " + citaCompletada.getMotivo() +
                         "\nFecha: " + citaCompletada.getFechaYHora().toString());
+                EMPGestionCitas_txMotivo.setText("");
+                actualizarListaProyectosEmpleado();
                 actualizarListaCitasEmpleado();
             }
         });
