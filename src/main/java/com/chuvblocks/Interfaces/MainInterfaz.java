@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainInterfaz extends JFrame {
@@ -169,7 +170,7 @@ public class MainInterfaz extends JFrame {
     private JTextField EMPgestionarProyectosAsig_txtTiempoFinalizacion;
     private JTextField EMPgestionarProyectosAsig_txtEstado;
     private JProgressBar EMPgestionarProyectosAsig_pbProgreso;
-    private JList list3;
+    private JList<Empleado> EMPgestionarProyectos_jListTrabajadoresInv;
     private JButton COMPLETARESTADOButton;
     private JLabel EMPgestionarProyectosAsig_lbNombreProyecto;
     private JPanel ADM_GestionarProyectosEstados;
@@ -205,6 +206,7 @@ public class MainInterfaz extends JFrame {
     private final DefaultComboBoxModel<PuntoMapa> listaLugares2MapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<PuntoMapa> listaLugaresDisponiblesMapaDCM = new DefaultComboBoxModel<>();
     private final DefaultComboBoxModel<Empleado> listaEmpleadosDCM = new DefaultComboBoxModel<>();
+    private final DefaultComboBoxModel<Empleado> listaEmpleadosInvolucrados = new DefaultComboBoxModel<>();
 
     public MainInterfaz() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -226,6 +228,8 @@ public class MainInterfaz extends JFrame {
         ADM_ProyectosIniciarcboAsigTrabajadores.setModel(listaEmpleadosDCM);
         ADM_GestionProyectosCitaslst.setModel(listaCitasSolicitudDLM);
         EMPGestionCitas_lsCitas.setModel(listaCitasDLM);
+        USgestionarProyectos_jListTrabajadores.setModel(listaEmpleadosInvolucrados);
+        EMPgestionarProyectos_jListTrabajadoresInv.setModel(listaEmpleadosInvolucrados);
 
         EMPRevisionSolicitud_spDia.setModel(
                 new SpinnerNumberModel(LocalDate.now().getDayOfMonth(), 1, 31,
@@ -340,6 +344,7 @@ public class MainInterfaz extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarInterfaz("InicioSesion");
+                limpiarListadosEmpleadosInvolucrados();
             }
         };
         US_cerrarSesionButton.addActionListener(listener);
@@ -424,6 +429,7 @@ public class MainInterfaz extends JFrame {
                             "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
                     USgestionarProyectos_txtEstadoP.setText(proyectoSeleccionado.getEstado().toString());
                     USgestionarProyectos_pbEstado.setValue((int) (((proyectoSeleccionado.getEstado().ordinal() + 1) / 6.0d) * 100));
+                    actualizarListadosEmpleadosInvolucrados(proyectoSeleccionado.getEmpleadosInvolucrados());
                 }
             }
         });
@@ -694,6 +700,7 @@ public class MainInterfaz extends JFrame {
                             "Aun no se ha iniciado" : proyectoSeleccionado.getFechaInicio().toString());
                     EMPgestionarProyectosAsig_txtEstado.setText(proyectoSeleccionado.getEstado().toString());
                     EMPgestionarProyectosAsig_pbProgreso.setValue((int) (((proyectoSeleccionado.getEstado().ordinal() + 1) / 6.0d) * 100));
+                    actualizarListadosEmpleadosInvolucrados(proyectoSeleccionado.getEmpleadosInvolucrados());
                 }
             }
         });
@@ -805,6 +812,7 @@ public class MainInterfaz extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarInterfaz("InicioSesion");
+                limpiarListadosEmpleadosInvolucrados();
             }
         });
     }
@@ -873,6 +881,15 @@ public class MainInterfaz extends JFrame {
         EMPRevisionSolicitud_txtDescripcion.setText(solicitudSeleccionada.getDetalles());
         EMPRevisionSolicitud_txtNSolicitante.setText(solicitudSeleccionada.getSolicitante().getNombre());
         EMPRevisionSolicitud_txtNSolicitanteCedula.setText(solicitudSeleccionada.getSolicitante().getCedula());
+    }
+
+    public void actualizarListadosEmpleadosInvolucrados(ArrayList<Empleado> empleados) {
+        limpiarListadosEmpleadosInvolucrados();
+        empleados.forEach(listaEmpleadosInvolucrados::addElement);
+    }
+
+    public void limpiarListadosEmpleadosInvolucrados() {
+        listaEmpleadosInvolucrados.removeAllElements();
     }
 
     private void actualizarListaProyectosCliente() {
