@@ -194,6 +194,8 @@ public class MainInterfaz extends JFrame {
     private JLabel ADM_ProyectosIniciarlbNombreP;
     private JButton ADM_ProyectosIniciarbtnCancelar;
     private JButton CERRARSESIONButton;
+    private JTextArea ADM_Adyacenciatxt;
+    private JButton crearAdyacencia;
     private final DefaultListModel<SolicitudProyecto> solicitudesDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosClienteDLM = new DefaultListModel<>();
     private final DefaultListModel<Proyecto> proyectosEmpleadoDLM = new DefaultListModel<>();
@@ -813,6 +815,12 @@ public class MainInterfaz extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 cambiarInterfaz("InicioSesion");
                 limpiarListadosEmpleadosInvolucrados();
+            }
+        });
+        crearAdyacencia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ADM_Adyacenciatxt.setText(AMD_Mapa.imprimirMatrizAdyacencia());
             }
         });
     }

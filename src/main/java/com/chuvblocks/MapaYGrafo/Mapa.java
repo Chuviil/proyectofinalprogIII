@@ -60,6 +60,56 @@ public class Mapa {
         return puntoMasCercano;
     }
 
+    public Graph<PuntoMapa, DefaultWeightedEdge> getGrafoMapa() {
+        return grafoMapa;
+    }
+
+    public String imprimirMatrizAdyacencia() {
+        Set<PuntoMapa> puntosMapa = grafoMapa.vertexSet();
+        int numVertices = puntosMapa.size();
+
+        // Create and initialize the adjacency matrix
+        int[][] matrizAdyacencia = new int[numVertices][numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                matrizAdyacencia[i][j] = 0;
+            }
+        }
+
+        // Populate the adjacency matrix based on the graph connections
+        for (DefaultWeightedEdge edge : grafoMapa.edgeSet()) {
+            PuntoMapa source = grafoMapa.getEdgeSource(edge);
+            PuntoMapa target = grafoMapa.getEdgeTarget(edge);
+            int sourceIndex = obtenerIndicePuntoMapa(source, puntosMapa);
+            int targetIndex = obtenerIndicePuntoMapa(target, puntosMapa);
+            double weight = grafoMapa.getEdgeWeight(edge);
+            matrizAdyacencia[sourceIndex][targetIndex] = (int) weight;
+            matrizAdyacencia[targetIndex][sourceIndex] = (int) weight;
+        }
+
+        // Build the adjacency matrix string
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                sb.append(matrizAdyacencia[i][j]).append(" ");
+            }
+            sb.append(System.lineSeparator());
+        }
+
+        return sb.toString();
+    }
+
+    private int obtenerIndicePuntoMapa(PuntoMapa punto, Set<PuntoMapa> puntosMapa) {
+        int index = 0;
+        for (PuntoMapa p : puntosMapa) {
+            if (p.equals(punto)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
     public static Mapa Ejemplo() {
         Mapa mapa = new Mapa();
         Random random = new Random();
@@ -110,6 +160,6 @@ public class Mapa {
 
     public static void main(String[] args) {
         Mapa mapa = Mapa.Ejemplo();
-        System.out.println(mapa);
+        System.out.println(mapa.imprimirMatrizAdyacencia());
     }
 }
